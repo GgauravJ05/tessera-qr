@@ -15,7 +15,22 @@ free tier ends, or let you pick colours that look great on screen and fail on
 paper. Tessera does neither: it encodes the payload directly into the symbol,
 and it checks contrast and capacity while you design.
 
+![The Tessera studio in dark mode: a link being encoded, with the styled QR code rendering live beside it](screenshots/studio-dark.png)
+
+<table>
+  <tr>
+    <td width="50%"><img alt="The studio in light mode" src="screenshots/studio-light.png"></td>
+    <td width="50%"><img alt="A low-contrast colour pair flagged as likely unscannable at 1.7:1" src="screenshots/contrast.png"></td>
+  </tr>
+  <tr>
+    <td><em>Light theme — the same studio.</em></td>
+    <td><em>A pretty colour pair, caught before it reaches a printer.</em></td>
+  </tr>
+</table>
+
 ## Features
+
+![Tessera's landing page](screenshots/hero.png)
 
 **Nine content kinds** — URL, plain text, WiFi credentials, vCard contacts,
 email, SMS, phone, geo coordinates and calendar events. Each tab keeps its own
@@ -51,6 +66,15 @@ Vitest + Testing Library · oxlint · Prettier
 
 No backend, no analytics, no network calls at runtime. Encoding and rendering
 happen on the device.
+
+## On a phone
+
+The studio is built to work at 320px and up — the content tabs scroll
+horizontally, the panels stack, and the preview stays on screen.
+
+<p align="center">
+  <img alt="The studio on a narrow phone viewport" src="screenshots/mobile.png" width="300">
+</p>
 
 ## Getting started
 
