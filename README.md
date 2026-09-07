@@ -6,6 +6,8 @@
 [![Licence: AGPL v3](https://img.shields.io/badge/licence-AGPL--3.0-2f5fe0.svg)](LICENSE)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-1f9d55.svg)](CONTRIBUTING.md)
 
+**[Open the studio →](https://tessera-qr.vercel.app/)**
+
 A QR code studio that runs entirely in the browser. Pick what the code should
 do, style it, and take the file — nothing you type is ever sent anywhere, and
 the codes are static, so they keep working after this site is gone.
