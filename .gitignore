@@ -23,6 +23,7 @@ pnpm-debug.log*
 
 # Personal drafts, not part of the project
 linkedin.md
+project.md
 
 # Env
 .env
