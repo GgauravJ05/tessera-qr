@@ -1,6 +1,6 @@
-import { Heart, Mail } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { Logo } from './Logo';
-import { GithubIcon, LinkedinIcon } from './BrandIcons';
+import { GithubIcon } from './BrandIcons';
 
 const STACK = ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS', 'qr-code-styling'];
 
@@ -25,9 +25,11 @@ const SECTIONS = [
 ];
 
 const SOCIAL = [
-  { label: 'GitHub', href: 'https://github.com/JGaurav26', Icon: GithubIcon },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/', Icon: LinkedinIcon },
-  { label: 'Email', href: 'mailto:hello@example.com', Icon: Mail },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/GgauravJ05/tessera-qr',
+    Icon: GithubIcon,
+  },
 ];
 
 export function Footer() {

@@ -101,7 +101,7 @@ export function StylePanel({ style, onChange }: StylePanelProps) {
       onChange({
         logo: String(reader.result),
         // A logo covers data modules, so lift recovery to survive the hole.
-        errorCorrection: style.errorCorrection === 'H' ? 'H' : 'H',
+        errorCorrection: 'H',
       });
     reader.readAsDataURL(file);
   };

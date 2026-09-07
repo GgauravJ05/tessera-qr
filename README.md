@@ -32,7 +32,7 @@ export instead of after.
 gradient foreground; transparent background; a centre logo with adjustable size
 and quiet margin; and error correction from L to H.
 
-**Export** to PNG, SVG, JPEG or WebP at up to 1024 px, or copy the PNG straight
+**Export** to PNG, SVG, JPEG or WebP at up to 4096 px, or copy the PNG straight
 to the clipboard. Exports re-render at full output resolution rather than
 upscaling the preview.
 

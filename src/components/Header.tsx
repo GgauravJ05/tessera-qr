@@ -66,10 +66,10 @@ export function Header({
             100% on-device
           </span>
           <a
-            href="https://github.com/JGaurav26"
+            href="https://github.com/GgauravJ05/tessera-qr"
             target="_blank"
             rel="noreferrer noopener"
-            aria-label="View the author on GitHub"
+            aria-label="View the source on GitHub"
             className="inline-flex size-9 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-raised hover:text-ink"
           >
             <GithubIcon size={17} />

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
-import { Check, Copy, Download } from 'lucide-react';
+import { Check, Copy, Download, QrCode } from 'lucide-react';
 import type { CapacityReport } from '@/lib/validation';
 import type { ScannabilityReport } from '@/lib/contrast';
 import type { ExportFormat, QrStyle } from '@/types/qr';
@@ -44,20 +44,27 @@ export function QrPreview({
 
   return (
     <div className="space-y-4">
-      <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-line bg-[linear-gradient(45deg,#00000008_25%,transparent_25%,transparent_75%,#00000008_75%),linear-gradient(45deg,#00000008_25%,transparent_25%,transparent_75%,#00000008_75%)] bg-[length:16px_16px] bg-[position:0_0,8px_8px] p-6 shadow-[inset_0_1px_2px_rgb(0_0_0/0.04)]">
+      <div className="relative mx-auto flex aspect-square w-full max-w-[420px] items-center justify-center overflow-hidden rounded-2xl border border-line bg-[linear-gradient(45deg,#00000008_25%,transparent_25%,transparent_75%,#00000008_75%),linear-gradient(45deg,#00000008_25%,transparent_25%,transparent_75%,#00000008_75%)] bg-[length:16px_16px] bg-[position:0_0,8px_8px] p-4 shadow-[inset_0_1px_2px_rgb(0_0_0/0.04)] sm:p-6">
         <div
           ref={containerRef}
           aria-hidden={!ready}
           className={clsx(
-            '[&>canvas]:h-auto [&>canvas]:w-full [&>canvas]:max-w-[360px] [&>svg]:h-auto [&>svg]:w-full',
-            'transition-opacity duration-200',
-            ready ? 'opacity-100' : 'opacity-15 blur-[1px]',
+            'w-full max-w-[360px] [&>canvas]:h-auto [&>canvas]:w-full [&>svg]:h-auto [&>svg]:w-full',
+            'transition-opacity duration-300',
+            ready ? 'opacity-100' : 'opacity-[0.07] blur-[2px]',
           )}
         />
+        {/* The empty state replaces the ghost symbol rather than sitting on top
+            of it, so the copy is never read against the pattern. */}
         {!ready && (
-          <p className="absolute inset-x-6 bottom-6 text-center text-sm text-ink-subtle">
-            Fill in the details to generate your code.
-          </p>
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 p-6 text-center">
+            <span className="inline-flex size-9 items-center justify-center rounded-xl bg-accent-soft text-accent">
+              <QrCode size={18} aria-hidden />
+            </span>
+            <p className="text-balance text-[13.5px] leading-snug text-ink-muted">
+              Fill in the details to generate your code.
+            </p>
+          </div>
         )}
       </div>
 
@@ -112,22 +119,24 @@ export function QrPreview({
         )}
       </div>
 
-      <div className="flex gap-2">
-        <Select
-          value={format}
-          aria-label="Export format"
-          onChange={(e) => setFormat(e.target.value as ExportFormat)}
-          className="h-11 w-24 shrink-0 rounded-xl"
-        >
-          {FORMATS.map((f) => (
-            <option key={f} value={f}>
-              {f.toUpperCase()}
-            </option>
-          ))}
-        </Select>
+      <div className="flex min-w-0 gap-2">
+        <div className="w-[92px] shrink-0">
+          <Select
+            value={format}
+            aria-label="Export format"
+            onChange={(e) => setFormat(e.target.value as ExportFormat)}
+            className="h-11 rounded-xl"
+          >
+            {FORMATS.map((f) => (
+              <option key={f} value={f}>
+                {f.toUpperCase()}
+              </option>
+            ))}
+          </Select>
+        </div>
         <Button
           variant="primary"
-          className="h-11 flex-1 rounded-xl text-[14.5px] font-semibold shadow-[var(--shadow-float)]"
+          className="h-11 min-w-0 flex-1 rounded-xl text-[14.5px] font-semibold shadow-[var(--shadow-float)]"
           disabled={blocked}
           onClick={() => void download(format, fileName)}
         >

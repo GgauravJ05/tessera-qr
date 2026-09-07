@@ -39,10 +39,10 @@
   --surface: #ffffff;
   --raised: #fafbfc;
   --line: #e6e8ec;
-  --line-strong: #d3d7de;
+  --line-strong: #c4c9d2;
   --ink: #0b0d12;
   --ink-muted: #545b69;
-  --ink-subtle: #858c9a;
+  --ink-subtle: #6b7280;
   --accent: #4f46e5;
   --accent-hover: #4338ca;
   --accent-soft: #eef2ff;
@@ -54,17 +54,18 @@
   --ok: #17734b;
   --ok-soft: #eefaf3;
   color-scheme: light;
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 .dark {
   --canvas: #08090d;
   --surface: #101319;
   --raised: #161a22;
-  --line: #222733;
-  --line-strong: #333a48;
+  --line: #242a37;
+  --line-strong: #3d4453;
   --ink: #f1f4f9;
   --ink-muted: #a2aab9;
-  --ink-subtle: #6f7889;
+  --ink-subtle: #8b94a6;
   --accent: #8480f2;
   --accent-hover: #9793f6;
   --accent-soft: #1c1d38;
@@ -76,6 +77,7 @@
   --ok: #56d19b;
   --ok-soft: #10261e;
   color-scheme: dark;
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b94a6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --shadow-raise: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 12px -2px rgb(0 0 0 / 0.35);
   --shadow-float: 0 2px 4px rgb(0 0 0 / 0.4), 0 12px 32px -8px rgb(0 0 0 / 0.55);
 }
@@ -87,6 +89,7 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
 }
@@ -95,8 +98,31 @@ body {
   background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  /* Inter's contextual alternates give a single-storey 'l' and a straighter
+     'a' at UI sizes, which reads cleaner in dense control labels. */
+  font-feature-settings:
+    'cv05' 1,
+    'cv11' 1,
+    'ss01' 1;
+  line-height: 1.5;
   margin: 0;
   min-height: 100dvh;
+  /* Clip rather than hide: hidden on the body would break the sticky header. */
+  overflow-x: clip;
+}
+
+/* Numbers that change in place - readouts, capacity, stats - must not reflow
+   as the digits change, so give every one of them tabular figures. */
+.font-mono,
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Long-form copy reads better with the last line balanced and hyphenation
+   available at narrow widths. */
+p {
+  text-wrap: pretty;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -165,6 +191,11 @@ body {
 }
 
 /* Hairline grid, the standard backdrop for a developer-tool hero. */
+@media (min-width: 640px) {
+  .hero-grid::after {
+    background-size: 64px 64px !important;
+  }
+}
 .hero-grid::after {
   content: '';
   position: absolute;
@@ -181,7 +212,7 @@ body {
       color-mix(in oklab, var(--ink) 6%, transparent) 1px,
       transparent 1px
     );
-  background-size: 64px 64px;
+  background-size: 40px 40px;
   mask-image: radial-gradient(70% 55% at 50% 0%, #000, transparent 75%);
 }
 
@@ -199,6 +230,13 @@ body {
   border: 3px solid transparent;
   background-clip: content-box;
   border-radius: 999px;
+}
+
+select {
+  background-image: var(--select-chevron);
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 14px;
 }
 
 input[type='color'] {
@@ -240,6 +278,31 @@ input[type='range']::-webkit-slider-thumb {
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
 }
 
+input[type='range']::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+input[type='range']::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 2px solid var(--surface);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+}
+
+/* A horizontal strip that scrolls: the mask tells the reader there is more
+   past the edge, instead of letting content look arbitrarily cut off. */
+.scroll-edge-fade {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 14px,
+    #000 calc(100% - 22px),
+    transparent 100%
+  );
+}
 @keyframes rise {
   from {
     opacity: 0;

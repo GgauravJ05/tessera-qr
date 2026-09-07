@@ -34,7 +34,7 @@ function Panel({
 }) {
   return (
     <section
-      className={`rounded-panel border border-line bg-surface p-5 shadow-[var(--shadow-raise)] sm:p-7 ${className ?? ''}`}
+      className={`rounded-panel min-w-0 border border-line bg-surface p-4 shadow-[var(--shadow-raise)] sm:p-6 lg:p-7 ${className ?? ''}`}
     >
       <div className="mb-5 flex items-start gap-3.5">
         <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-lg bg-accent-soft font-mono text-[11px] font-semibold text-accent">
@@ -83,7 +83,7 @@ export default function App() {
       <main>
         <Hero />
 
-        <div id="studio" className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 sm:py-24">
+        <div id="studio" className="mx-auto max-w-[1240px] px-4 py-14 sm:px-6 sm:py-24">
           <div className="mb-10 max-w-2xl">
             <p className="eyebrow">The studio</p>
             <h2 className="text-section-title mt-3 text-balance">
@@ -92,7 +92,7 @@ export default function App() {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_396px] lg:items-start lg:gap-8">
-            <div className="animate-rise space-y-6">
+            <div className="animate-rise min-w-0 space-y-6">
               <Panel
                 step="01"
                 title="Content"
@@ -117,7 +117,7 @@ export default function App() {
               </Panel>
             </div>
 
-            <aside className="animate-rise delay-1 lg:sticky lg:top-24">
+            <aside className="animate-rise delay-1 min-w-0 lg:sticky lg:top-24">
               <Panel step="03" title="Preview" description="Live render at full quality.">
                 <QrPreview
                   payload={payload}

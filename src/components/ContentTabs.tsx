@@ -48,7 +48,7 @@ export function ContentTabs({ value, onChange }: ContentTabsProps) {
     <div
       role="tablist"
       aria-label="QR content type"
-      className="scroll-thin -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1.5"
+      className="scroll-thin scroll-edge-fade -mx-1 flex min-w-0 snap-x snap-mandatory gap-1.5 overflow-x-auto px-1 pb-1.5"
     >
       {ORDER.map((kind) => {
         const Icon = ICONS[kind];
@@ -61,7 +61,7 @@ export function ContentTabs({ value, onChange }: ContentTabsProps) {
             aria-selected={active}
             onClick={() => onChange(kind)}
             className={clsx(
-              'flex shrink-0 items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[13px] font-medium transition-all duration-200 active:scale-[0.97]',
+              'flex shrink-0 snap-start items-center gap-1.5 whitespace-nowrap rounded-xl border px-3 py-2 text-[13px] font-medium transition-all duration-200 active:scale-[0.97] sm:px-3.5',
               active
                 ? 'border-accent/40 bg-accent-soft text-accent shadow-[var(--shadow-raise)]'
                 : 'border-line bg-raised text-ink-muted hover:-translate-y-px hover:border-line-strong hover:text-ink',
