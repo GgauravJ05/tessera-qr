@@ -1,6 +1,6 @@
-import { Heart } from 'lucide-react';
+import { Globe, Heart, Mail, Scale } from 'lucide-react';
 import { Logo } from './Logo';
-import { GithubIcon } from './BrandIcons';
+import { GithubIcon, LinkedinIcon } from './BrandIcons';
 
 const STACK = ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS', 'qr-code-styling'];
 
@@ -24,12 +24,17 @@ const SECTIONS = [
   },
 ];
 
+const REPO = 'https://github.com/GgauravJ05/tessera-qr';
+
 const SOCIAL = [
+  { label: 'Source on GitHub', href: REPO, Icon: GithubIcon },
+  { label: 'Portfolio', href: 'https://gauravjadhav.vercel.app/', Icon: Globe },
   {
-    label: 'GitHub',
-    href: 'https://github.com/GgauravJ05/tessera-qr',
-    Icon: GithubIcon,
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/ggauravj05',
+    Icon: LinkedinIcon,
   },
+  { label: 'Email', href: 'mailto:ggauravj5@gmail.com', Icon: Mail },
 ];
 
 export function Footer() {
@@ -82,13 +87,19 @@ export function Footer() {
         <div className="mt-12 flex flex-col gap-5 border-t border-line pt-7 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[13.5px] text-ink-muted">
             Made with <Heart size={12} className="inline text-danger" aria-label="love" />{' '}
-            by <span className="font-semibold text-ink">Gaurav</span>
+            by{' '}
+            <a
+              href="https://gauravjadhav.vercel.app/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-semibold text-ink underline decoration-line-strong underline-offset-2 transition-colors hover:decoration-accent"
+            >
+              Gaurav Jadhav
+            </a>
             <span className="mx-2 text-ink-subtle" aria-hidden>
               ·
             </span>
-            <span className="text-ink-subtle">
-              © {new Date().getFullYear()} Tessera. Open source, MIT licensed.
-            </span>
+            <span className="text-ink-subtle">© {new Date().getFullYear()} Tessera</span>
           </p>
 
           <ul className="flex items-center gap-1">
@@ -108,7 +119,32 @@ export function Footer() {
           </ul>
         </div>
 
-        <p className="mt-6 text-[12px] leading-relaxed text-ink-subtle">
+        <p className="mt-5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[12.5px] text-ink-muted">
+          <Scale size={13} className="shrink-0" aria-hidden />
+          <span>
+            Free software under the{' '}
+            <a
+              href={`${REPO}/blob/main/LICENSE`}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-medium text-ink underline decoration-line-strong underline-offset-2 transition-colors hover:decoration-accent"
+            >
+              GNU AGPL v3
+            </a>
+            . The complete corresponding source is at{' '}
+            <a
+              href={REPO}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-medium text-ink underline decoration-line-strong underline-offset-2 transition-colors hover:decoration-accent"
+            >
+              github.com/GgauravJ05/tessera-qr
+            </a>
+            .
+          </span>
+        </p>
+
+        <p className="mt-4 text-[12px] leading-relaxed text-ink-subtle">
           Tessera generates static QR codes: the payload is encoded in the symbol itself,
           so codes do not expire and no scan data is collected. QR Code is a registered
           trademark of Denso Wave Incorporated. Not affiliated with Denso Wave.

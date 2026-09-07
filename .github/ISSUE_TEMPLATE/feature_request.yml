@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest an addition or an improvement
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing, note the one hard constraint: **nothing the user types
+        may leave their device.** Features needing a server, an API call or
+        analytics are out of scope by design.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe the situation you are in, not just the feature you want.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like it to do?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything you have tried or considered instead?

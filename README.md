@@ -2,6 +2,10 @@
 
 **Craft QR codes worth scanning.**
 
+[![CI](https://github.com/GgauravJ05/tessera-qr/actions/workflows/ci.yml/badge.svg)](https://github.com/GgauravJ05/tessera-qr/actions/workflows/ci.yml)
+[![Licence: AGPL v3](https://img.shields.io/badge/licence-AGPL--3.0-2f5fe0.svg)](LICENSE)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-1f9d55.svg)](CONTRIBUTING.md)
+
 A QR code studio that runs entirely in the browser. Pick what the code should
 do, style it, and take the file — nothing you type is ever sent anywhere, and
 the codes are static, so they keep working after this site is gone.
@@ -103,6 +107,52 @@ phones before committing to a large run. Raising error correction to Q or H
 buys tolerance for a centre logo or for wear on physical media, at the cost of
 a denser symbol.
 
+## Contributing
+
+Contributions are welcome — see **[CONTRIBUTING.md](CONTRIBUTING.md)** for the
+setup, the checks CI runs, and a walkthrough of adding a new content type.
+
+Two things are worth knowing before you start:
+
+- **Nothing the user types may leave their device.** No analytics, no
+  telemetry, no runtime API calls. This is the product, so a PR that adds one
+  will be declined however good the feature is.
+- **A QR code that does not scan is a bug**, however good it looks. Changes to
+  encoding, validation or contrast need tests.
+
+By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
+Security issues go through [SECURITY.md](SECURITY.md), privately — not the
+issue tracker.
+
 ## Licence
 
-MIT
+Tessera is free software under the **[GNU Affero General Public License v3](LICENSE)**.
+
+In plain terms:
+
+- **You may** use, study, share and modify it, including commercially.
+- **You must** keep it under the AGPL and preserve the copyright notice.
+- **If you modify it and run it as a network service**, you must offer your
+  users the complete corresponding source of your modified version. This is
+  the clause an ordinary GPL lacks, and it is the reason this project uses the
+  AGPL: deploying a changed copy of Tessera as a website is exactly the case it
+  covers.
+
+So you are free to fork it, learn from it and build on it. What you may not do
+is take this app, put your own name on it, host it, and keep your changes to
+yourself.
+
+The app itself carries a source link in its footer, as AGPL §13 requires. If
+you deploy a modified version, that link must point at **your** source, not
+this repository.
+
+Copyright © 2026 Gaurav Jadhav.
+
+## Author
+
+**Gaurav Jadhav**
+
+- Portfolio — [gauravjadhav.vercel.app](https://gauravjadhav.vercel.app/)
+- GitHub — [@GgauravJ05](https://github.com/GgauravJ05)
+- LinkedIn — [ggauravj05](https://www.linkedin.com/in/ggauravj05)
+- Email — [ggauravj5@gmail.com](mailto:ggauravj5@gmail.com)
