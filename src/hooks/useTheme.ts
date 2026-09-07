@@ -11,9 +11,7 @@ function readInitialTheme(): Theme {
   } catch {
     // Private browsing can throw on access; fall through to the system value.
   }
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 export function useTheme() {

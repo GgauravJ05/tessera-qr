@@ -11,7 +11,13 @@ const NAV = [
   { href: '#faq', label: 'FAQ' },
 ];
 
-export function Header({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) {
+export function Header({
+  theme,
+  onToggleTheme,
+}: {
+  theme: Theme;
+  onToggleTheme: () => void;
+}) {
   // The border and blur only appear once the page has moved, so the hero
   // reads as one uninterrupted surface at rest.
   const [scrolled, setScrolled] = useState(false);
@@ -74,7 +80,11 @@ export function Header({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: 
             onClick={onToggleTheme}
             className="inline-flex size-9 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-raised hover:text-ink"
           >
-            {theme === 'dark' ? <Sun size={17} aria-hidden /> : <Moon size={17} aria-hidden />}
+            {theme === 'dark' ? (
+              <Sun size={17} aria-hidden />
+            ) : (
+              <Moon size={17} aria-hidden />
+            )}
           </button>
         </div>
       </div>

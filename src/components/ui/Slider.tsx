@@ -1,3 +1,5 @@
+const identity = (value: number) => String(value);
+
 interface SliderProps {
   label: string;
   value: number;
@@ -14,7 +16,7 @@ export function Slider({
   min,
   max,
   step = 1,
-  format = (v) => String(v),
+  format = identity,
   onChange,
 }: SliderProps) {
   return (

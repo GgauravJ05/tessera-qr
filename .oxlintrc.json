@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "import"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "ignorePatterns": ["dist", "coverage", "node_modules"],
+  "rules": {
+    "typescript/no-explicit-any": "error",
+    "react/react-in-jsx-scope": "off",
+    "import/no-unassigned-import": "off",
+    "no-console": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx", "src/test/**"],
+      "rules": { "no-console": "off" }
+    }
+  ]
+}

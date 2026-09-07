@@ -15,6 +15,9 @@ export function useQrCode(payload: string, style: QrStyle) {
   const instanceRef = useRef<QRCodeStyling | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // The QR library renders imperatively into the DOM, so its failures can only
+  // surface from the effect that drives it.
+  // oxlint-disable react/set-state-in-effect
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -34,6 +37,7 @@ export function useQrCode(payload: string, style: QrStyle) {
       );
     }
   }, [payload, style]);
+  // oxlint-enable react/set-state-in-effect
 
   /** Renders a fresh instance at full output size and triggers a download. */
   const download = async (format: ExportFormat, name: string) => {

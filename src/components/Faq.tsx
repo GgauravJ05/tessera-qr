@@ -54,7 +54,9 @@ export function Faq() {
                       className="shrink-0 text-ink-subtle transition-transform duration-300 group-open:rotate-180"
                     />
                   </summary>
-                  <p className="pb-5 pr-8 text-[14.5px] leading-relaxed text-ink-muted">{a}</p>
+                  <p className="pb-5 pr-8 text-[14.5px] leading-relaxed text-ink-muted">
+                    {a}
+                  </p>
                 </details>
               </li>
             ))}

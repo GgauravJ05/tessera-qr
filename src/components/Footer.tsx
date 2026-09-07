@@ -58,7 +58,9 @@ export function Footer() {
 
           {SECTIONS.map((section) => (
             <nav key={section.title} aria-label={section.title}>
-              <h2 className="text-[13px] font-semibold tracking-tight">{section.title}</h2>
+              <h2 className="text-[13px] font-semibold tracking-tight">
+                {section.title}
+              </h2>
               <ul className="mt-3.5 space-y-2.5">
                 {section.links.map((link) => (
                   <li key={link.label}>
@@ -77,9 +79,8 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col gap-5 border-t border-line pt-7 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[13.5px] text-ink-muted">
-            Made with{' '}
-            <Heart size={12} className="inline text-danger" aria-label="love" /> by{' '}
-            <span className="font-semibold text-ink">Gaurav</span>
+            Made with <Heart size={12} className="inline text-danger" aria-label="love" />{' '}
+            by <span className="font-semibold text-ink">Gaurav</span>
             <span className="mx-2 text-ink-subtle" aria-hidden>
               ·
             </span>

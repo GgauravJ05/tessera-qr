@@ -40,7 +40,10 @@ export function ContentForm({ content, errors, onChange }: ContentFormProps) {
 
     case 'text':
       return (
-        <Field label="Text" hint="Any plain text. Shorter text makes a denser, easier-to-scan code.">
+        <Field
+          label="Text"
+          hint="Any plain text. Shorter text makes a denser, easier-to-scan code."
+        >
           {(id, describedBy) => (
             <TextArea
               id={id}
@@ -89,7 +92,9 @@ export function ContentForm({ content, errors, onChange }: ContentFormProps) {
                   type="text"
                   autoComplete="off"
                   disabled={content.encryption === 'nopass'}
-                  placeholder={content.encryption === 'nopass' ? 'Not required' : '••••••••'}
+                  placeholder={
+                    content.encryption === 'nopass' ? 'Not required' : '••••••••'
+                  }
                   value={content.password}
                   onChange={(e) => set('password', e.target.value)}
                 />

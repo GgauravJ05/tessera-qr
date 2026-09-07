@@ -118,11 +118,7 @@ export default function App() {
             </div>
 
             <aside className="animate-rise delay-1 lg:sticky lg:top-24">
-              <Panel
-                step="03"
-                title="Preview"
-                description="Live render at full quality."
-              >
+              <Panel step="03" title="Preview" description="Live render at full quality.">
                 <QrPreview
                   payload={payload}
                   style={style}

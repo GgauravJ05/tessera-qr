@@ -5,7 +5,7 @@ import type { QrContent } from '@/types/qr';
  * schemes. They must be backslash-escaped or a value containing one silently
  * truncates the payload when a scanner parses it.
  */
-const WIFI_RESERVED = /([\;,:"])/g;
+const WIFI_RESERVED = /([;,:"])/g;
 
 export function escapeWifiValue(value: string): string {
   return value.replace(WIFI_RESERVED, '\\$1');
@@ -102,9 +102,7 @@ export function buildPayload(content: QrContent): string {
     case 'sms': {
       const number = normalizePhone(content.phone);
       if (!number) return '';
-      return content.message
-        ? `SMSTO:${number}:${content.message}`
-        : `SMSTO:${number}`;
+      return content.message ? `SMSTO:${number}:${content.message}` : `SMSTO:${number}`;
     }
 
     case 'phone': {

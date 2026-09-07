@@ -1,7 +1,13 @@
 import { useRef } from 'react';
 import { clsx } from 'clsx';
 import { ImagePlus, Trash2 } from 'lucide-react';
-import type { CornerDotStyle, CornerSquareStyle, DotStyle, ErrorCorrectionLevel, QrStyle } from '@/types/qr';
+import type {
+  CornerDotStyle,
+  CornerSquareStyle,
+  DotStyle,
+  ErrorCorrectionLevel,
+  QrStyle,
+} from '@/types/qr';
 import { PRESETS } from '@/lib/defaults';
 import { Field } from './ui/Field';
 import { Select } from './ui/Input';
@@ -232,7 +238,9 @@ export function StylePanel({ style, onChange }: StylePanelProps) {
             <Select
               id={id}
               value={style.cornerDotStyle}
-              onChange={(e) => onChange({ cornerDotStyle: e.target.value as CornerDotStyle })}
+              onChange={(e) =>
+                onChange({ cornerDotStyle: e.target.value as CornerDotStyle })
+              }
             >
               {CORNER_DOTS.map((o) => (
                 <option key={o.value} value={o.value}>

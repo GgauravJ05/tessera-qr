@@ -151,8 +151,16 @@ body {
   height: 620px;
   pointer-events: none;
   background:
-    radial-gradient(48% 46% at 22% 42%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%),
-    radial-gradient(42% 40% at 78% 30%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 72%);
+    radial-gradient(
+      48% 46% at 22% 42%,
+      color-mix(in oklab, var(--accent) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      42% 40% at 78% 30%,
+      color-mix(in oklab, var(--accent) 14%, transparent),
+      transparent 72%
+    );
   filter: blur(12px);
 }
 
@@ -163,8 +171,16 @@ body {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--ink) 6%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--ink) 6%, transparent) 1px,
+      transparent 1px
+    );
   background-size: 64px 64px;
   mask-image: radial-gradient(70% 55% at 50% 0%, #000, transparent 75%);
 }

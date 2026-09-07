@@ -1,14 +1,6 @@
 /** The kinds of content Tessera can encode into a QR symbol. */
 export type ContentKind =
-  | 'url'
-  | 'text'
-  | 'wifi'
-  | 'vcard'
-  | 'email'
-  | 'sms'
-  | 'phone'
-  | 'geo'
-  | 'event';
+  'url' | 'text' | 'wifi' | 'vcard' | 'email' | 'sms' | 'phone' | 'geo' | 'event';
 
 export type WifiEncryption = 'WPA' | 'WEP' | 'nopass';
 
@@ -86,7 +78,8 @@ export type QrContent =
   | EventContent;
 
 export type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
-export type DotStyle = 'square' | 'dots' | 'rounded' | 'classy' | 'classy-rounded' | 'extra-rounded';
+export type DotStyle =
+  'square' | 'dots' | 'rounded' | 'classy' | 'classy-rounded' | 'extra-rounded';
 export type CornerSquareStyle = 'square' | 'dot' | 'extra-rounded';
 export type CornerDotStyle = 'square' | 'dot';
 export type ExportFormat = 'png' | 'jpeg' | 'webp' | 'svg';

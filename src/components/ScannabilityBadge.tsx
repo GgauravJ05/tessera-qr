@@ -32,9 +32,7 @@ export function ScannabilityBadge({ report }: { report: ScannabilityReport }) {
       <div className="flex items-center gap-2 font-medium">
         <Icon size={14} aria-hidden />
         <span>{label}</span>
-        <span className="ml-auto font-mono opacity-70">
-          {report.ratio.toFixed(1)}:1
-        </span>
+        <span className="ml-auto font-mono opacity-70">{report.ratio.toFixed(1)}:1</span>
       </div>
       {report.messages.length > 0 && (
         <ul className="mt-1.5 space-y-1 pl-6 opacity-90">

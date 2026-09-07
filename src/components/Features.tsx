@@ -18,38 +18,32 @@ const FEATURES: Feature[] = [
   {
     Icon: ShieldCheck,
     title: 'Private by construction',
-    body:
-      'There is no backend to send anything to. Payloads are built and rendered on your device, so WiFi passwords and contact details never leave it.',
+    body: 'There is no backend to send anything to. Payloads are built and rendered on your device, so WiFi passwords and contact details never leave it.',
   },
   {
     Icon: InfinityIcon,
     title: 'Codes that never expire',
-    body:
-      'Every symbol is static — the data lives in the pattern itself, not behind a redirect. No subscription can switch your code off later.',
+    body: 'Every symbol is static — the data lives in the pattern itself, not behind a redirect. No subscription can switch your code off later.',
   },
   {
     Icon: Contrast,
     title: 'Scannability, checked live',
-    body:
-      'Contrast ratio and payload capacity are scored as you edit, so you find out a colour pair will fail before it reaches a printer.',
+    body: 'Contrast ratio and payload capacity are scored as you edit, so you find out a colour pair will fail before it reaches a printer.',
   },
   {
     Icon: Layers,
     title: 'Nine content types',
-    body:
-      'Links, plain text, WiFi joins, vCard contacts, email, SMS, phone, geo pins and calendar events — each with its own validated form.',
+    body: 'Links, plain text, WiFi joins, vCard contacts, email, SMS, phone, geo pins and calendar events — each with its own validated form.',
   },
   {
     Icon: Wand2,
     title: 'Design that stays on brand',
-    body:
-      'Dot and corner shapes, gradients, a centre logo and curated presets. Style it once and it still scans the way it should.',
+    body: 'Dot and corner shapes, gradients, a centre logo and curated presets. Style it once and it still scans the way it should.',
   },
   {
     Icon: FileImage,
     title: 'Print-ready exports',
-    body:
-      'PNG, SVG, JPEG or WebP at up to 4096 px, re-rendered at full resolution on download — or copied straight to your clipboard.',
+    body: 'PNG, SVG, JPEG or WebP at up to 4096 px, re-rendered at full resolution on download — or copied straight to your clipboard.',
   },
 ];
 

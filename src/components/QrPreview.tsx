@@ -62,7 +62,10 @@ export function QrPreview({
       </div>
 
       {error && (
-        <p role="alert" className="rounded-lg bg-danger-soft px-3 py-2 text-xs text-danger">
+        <p
+          role="alert"
+          className="rounded-lg bg-danger-soft px-3 py-2 text-xs text-danger"
+        >
           {error}
         </p>
       )}

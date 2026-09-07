@@ -1,5 +1,9 @@
 import { clsx } from 'clsx';
-import type { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes } from 'react';
+import type {
+  InputHTMLAttributes,
+  TextareaHTMLAttributes,
+  SelectHTMLAttributes,
+} from 'react';
 
 const base =
   'w-full rounded-lg border bg-raised px-3 py-2 text-sm text-ink placeholder:text-ink-subtle transition-colors hover:border-line-strong focus:border-accent focus:outline-none disabled:opacity-50';
@@ -27,7 +31,12 @@ export function TextArea({
     <textarea
       {...props}
       aria-invalid={invalid || undefined}
-      className={clsx(base, 'min-h-24 resize-y leading-relaxed', invalid && 'border-danger', className)}
+      className={clsx(
+        base,
+        'min-h-24 resize-y leading-relaxed',
+        invalid && 'border-danger',
+        className,
+      )}
     />
   );
 }
@@ -38,7 +47,10 @@ export function Select({
   ...props
 }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
-    <select {...props} className={clsx(base, 'cursor-pointer appearance-none pr-8', className)}>
+    <select
+      {...props}
+      className={clsx(base, 'cursor-pointer appearance-none pr-8', className)}
+    >
       {children}
     </select>
   );

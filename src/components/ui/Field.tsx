@@ -22,10 +22,7 @@ export function Field({ label, hint, error, children }: FieldProps) {
 
   return (
     <div className="space-y-1.5">
-      <label
-        htmlFor={id}
-        className="block text-[13px] font-medium text-ink-muted"
-      >
+      <label htmlFor={id} className="block text-[13px] font-medium text-ink-muted">
         {label}
       </label>
       {children(id, describedBy || undefined)}

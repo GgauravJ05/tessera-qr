@@ -70,7 +70,9 @@ export function Hero() {
                 <span className="block text-2xl font-semibold tracking-tight sm:text-3xl">
                   {stat.value}
                 </span>
-                <span className="mt-1 block text-[12px] text-ink-subtle">{stat.label}</span>
+                <span className="mt-1 block text-[12px] text-ink-subtle">
+                  {stat.label}
+                </span>
               </dd>
             </div>
           ))}
