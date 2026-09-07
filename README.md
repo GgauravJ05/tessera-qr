@@ -57,6 +57,12 @@ and quiet margin; and error correction from L to H.
 to the clipboard. Exports re-render at full output resolution rather than
 upscaling the preview.
 
+**Works offline, and installs.** Everything the app needs is precached by a
+service worker on first visit, so the studio keeps working with the network
+off — and it can be installed to a home screen or dock as a standalone app.
+The fonts are self-hosted rather than pulled from Google, so after the first
+load the app makes no network request at all, to any origin.
+
 **Correct payload escaping.** Reserved characters are escaped per scheme — a
 WiFi password containing `;` or `:`, or a vCard field containing a comma, would
 silently truncate the payload in a naive generator.
@@ -64,10 +70,11 @@ silently truncate the payload in a naive generator.
 ## Tech
 
 React 19 · TypeScript 7 · Vite 8 · Tailwind CSS v4 · `qr-code-styling` ·
-Vitest + Testing Library · oxlint · Prettier
+`vite-plugin-pwa` (Workbox) · Vitest + Testing Library · oxlint · Prettier
 
-No backend, no analytics, no network calls at runtime. Encoding and rendering
-happen on the device.
+No backend, no analytics, no third-party requests — not even for fonts.
+Encoding and rendering happen on the device, and a service worker precaches
+the build so it runs with no connection at all.
 
 ## On a phone
 
@@ -114,6 +121,7 @@ src/
     qrOptions.ts  Maps app style state onto qr-code-styling options
     defaults.ts   Empty drafts and the default style
   types/qr.ts     The content and style type model
+  assets/fonts/   Self-hosted Inter and JetBrains Mono (SIL OFL 1.1)
 ```
 
 The encoding logic lives in `src/lib` with no React dependency, which is where

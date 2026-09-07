@@ -5,6 +5,7 @@ import {
   Layers,
   ShieldCheck,
   Wand2,
+  WifiOff,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -18,7 +19,7 @@ const FEATURES: Feature[] = [
   {
     Icon: ShieldCheck,
     title: 'Private by construction',
-    body: 'There is no backend to send anything to. Payloads are built and rendered on your device, so WiFi passwords and contact details never leave it.',
+    body: 'There is no backend to send anything to, and no third-party request either — even the fonts are self-hosted. WiFi passwords and contact details never leave your device.',
   },
   {
     Icon: InfinityIcon,
@@ -39,6 +40,11 @@ const FEATURES: Feature[] = [
     Icon: Wand2,
     title: 'Design that stays on brand',
     body: 'Dot and corner shapes, gradients, a centre logo and curated presets. Style it once and it still scans the way it should.',
+  },
+  {
+    Icon: WifiOff,
+    title: 'Works with no connection',
+    body: 'Install it, or just visit once. Everything it needs is cached on your device, so the studio keeps generating codes on a plane, in a basement, or with the network off.',
   },
   {
     Icon: FileImage,

@@ -11,7 +11,7 @@ const FAQS = [
   },
   {
     q: 'Is my data uploaded anywhere?',
-    a: 'Never. There is no server component at all. Payload assembly and rendering happen entirely in your browser, so WiFi passwords, phone numbers and vCard details stay on your machine. You can confirm it by opening the network tab, or by disconnecting and using the app offline.',
+    a: 'Never. There is no server component at all. Payload assembly and rendering happen entirely in your browser, so WiFi passwords, phone numbers and vCard details stay on your machine. You can confirm it by opening the network tab: after the first load there are no requests at all, to this origin or any other — the fonts are served from here rather than from Google, so nothing third-party ever sees your IP. Install it or visit once, then disconnect entirely and it keeps working.',
   },
   {
     q: 'How small can I print one?',
