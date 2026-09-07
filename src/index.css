@@ -1,0 +1,249 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+
+  --radius-card: 18px;
+  --radius-panel: 24px;
+
+  /* Layered elevation, closer to the soft product shadows big-tech marketing
+     pages use than Tailwind's default hard drop shadows. */
+  --shadow-raise: 0 1px 2px rgb(16 19 26 / 0.04), 0 4px 12px -2px rgb(16 19 26 / 0.06);
+  --shadow-float: 0 2px 4px rgb(16 19 26 / 0.04), 0 12px 32px -8px rgb(16 19 26 / 0.12);
+}
+
+:root {
+  --canvas: #f7f8fa;
+  --surface: #ffffff;
+  --raised: #fafbfc;
+  --line: #e6e8ec;
+  --line-strong: #d3d7de;
+  --ink: #0b0d12;
+  --ink-muted: #545b69;
+  --ink-subtle: #858c9a;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: #eef2ff;
+  --on-accent: #ffffff;
+  --danger: #c2334a;
+  --danger-soft: #fdf0f2;
+  --warn: #a45c15;
+  --warn-soft: #fdf5e9;
+  --ok: #17734b;
+  --ok-soft: #eefaf3;
+  color-scheme: light;
+}
+
+.dark {
+  --canvas: #08090d;
+  --surface: #101319;
+  --raised: #161a22;
+  --line: #222733;
+  --line-strong: #333a48;
+  --ink: #f1f4f9;
+  --ink-muted: #a2aab9;
+  --ink-subtle: #6f7889;
+  --accent: #8480f2;
+  --accent-hover: #9793f6;
+  --accent-soft: #1c1d38;
+  --on-accent: #08090d;
+  --danger: #f2778c;
+  --danger-soft: #2a1720;
+  --warn: #e3a008;
+  --warn-soft: #2a2113;
+  --ok: #56d19b;
+  --ok-soft: #10261e;
+  color-scheme: dark;
+  --shadow-raise: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 12px -2px rgb(0 0 0 / 0.35);
+  --shadow-float: 0 2px 4px rgb(0 0 0 / 0.4), 0 12px 32px -8px rgb(0 0 0 / 0.55);
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  margin: 0;
+  min-height: 100dvh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Display type: tighter tracking at large sizes, the way marketing headlines
+   are set. Tailwind's default tracking is too loose above ~40px. */
+.text-display {
+  font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+
+.text-section-title {
+  font-size: clamp(1.5rem, 1.15rem + 1.4vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  font-weight: 650;
+}
+
+/* Small uppercase label that sits above a section heading. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-subtle);
+}
+
+/* Soft radial wash behind the hero, clipped so it never adds scroll. */
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  inset: -40% -10% auto;
+  height: 620px;
+  pointer-events: none;
+  background:
+    radial-gradient(48% 46% at 22% 42%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%),
+    radial-gradient(42% 40% at 78% 30%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 72%);
+  filter: blur(12px);
+}
+
+/* Hairline grid, the standard backdrop for a developer-tool hero. */
+.hero-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(70% 55% at 50% 0%, #000, transparent 75%);
+}
+
+/* Scrollbars that do not look like a 2009 desktop app. */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+.scroll-thin::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 999px;
+}
+
+input[type='color'] {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type='color']::-webkit-color-swatch {
+  border: none;
+  border-radius: 8px;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -6px;
+  height: 16px;
+  width: 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 2px solid var(--surface);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+/* Stagger helpers so a row of cards resolves in sequence rather than at once. */
+.delay-1 {
+  animation-delay: 60ms;
+}
+.delay-2 {
+  animation-delay: 120ms;
+}
+.delay-3 {
+  animation-delay: 180ms;
+}
