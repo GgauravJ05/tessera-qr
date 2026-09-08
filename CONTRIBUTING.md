@@ -59,6 +59,43 @@ src/types/      The content and style type model.
 New logic belongs in `src/lib` wherever it can, because that is where the
 tests are aimed and where it stays testable without a DOM.
 
+## The scannability model
+
+`tools/scanlab/` is offline research tooling. It renders designs, degrades them
+through simulated camera conditions and decodes them for real, which is where
+the training labels come from. It never enters the bundle, and `npm run build`
+does not touch it. Its own [README](tools/scanlab/README.md) covers the method
+and the results.
+
+```bash
+npm run lab:smoke      # six reference designs through the full ladder
+npm run lab:generate -- --count 5000 --out data/scans.jsonl
+```
+
+Two rules matter if you touch any of it:
+
+- **`FEATURE_NAMES` in `src/lib/scanFeatures.ts` is append-only.** A trained
+  model is only weights over those positions, so inserting or reordering a
+  feature silently invalidates every model trained against it.
+- **Features are extracted once, by a module both sides import.** If you find
+  yourself reimplementing feature extraction in the harness, stop — that is
+  train/serve skew, and it fails silently rather than loudly. `scanModel.test.ts`
+  pins the browser forward pass against scikit-learn's own output; if it fails,
+  the model and the app have drifted apart.
+
+Retraining requires Python:
+
+```bash
+python3 -m venv tools/scanlab/train/.venv
+tools/scanlab/train/.venv/bin/pip install -r tools/scanlab/train/requirements.txt
+tools/scanlab/train/.venv/bin/python tools/scanlab/train/train.py
+```
+
+That writes `src/lib/scanModel.data.json` and the parity fixture. A change to
+the model is only acceptable with the evaluation output that justifies it —
+measured against the shipped heuristic at its own false-alarm rate, not at a
+threshold that flatters the model.
+
 ## Adding a content type
 
 This is the most common feature request, and it touches five files in order:

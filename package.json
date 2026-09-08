@@ -45,10 +45,12 @@
     "lint:fix": "oxlint --fix",
     "format:check": "prettier --check .",
     "lab:build": "rolldown -c tools/scanlab/rolldown.config.mjs",
-    "lab:smoke": "npm run lab:build && node tools/scanlab/cli.mjs"
+    "lab:smoke": "npm run lab:build && node tools/scanlab/cli.mjs",
+    "lab:generate": "node tools/scanlab/generate.mjs",
+    "lab:validate": "node tools/scanlab/validate.mjs",
+    "lab:score": "node tools/scanlab/score.mjs"
   },
   "dependencies": {
-    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.42.0",
     "qr-code-styling": "^1.9.2",

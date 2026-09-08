@@ -44,6 +44,20 @@ outright, and **3–4.5:1** only decodes in good light on a clean print. The
 studio also warns when the symbol is lighter than its background, which older
 dark-on-light-only scanners cannot read.
 
+The rating is taken at the symbol's **weakest point**, not at the foreground
+colour. A gradient that starts black and fades to near-white scores above 20:1
+on its first colour and does not decode at the other end; measuring only where
+the user picked is how most generators miss it.
+
+**Scan prediction (beta, opt-in).** A small neural network, trained on 5,000
+symbols that were actually put through a decoder, rates a design on the things
+a contrast threshold cannot express — dot and corner shape, logo coverage
+against error correction, module density. It catches **56%** of unscannable
+designs against **42%** for the strengthened contrast rule, at the same
+false-alarm rate. It runs entirely on your device, and nothing downloads until
+you turn it on. See [`tools/scanlab`](tools/scanlab/README.md) for how it was
+built and measured.
+
 **Capacity metering.** The payload is measured in bytes against the real
 version-40 byte-mode limit for the selected error correction level (2953 at L
 down to 1273 at H), so you find out you have overflowed the symbol _before_ you
@@ -113,20 +127,35 @@ Then open the URL Vite prints (usually http://localhost:5173).
 ```
 src/
   components/     UI — studio panels, marketing sections, ui/ primitives
-  hooks/          useQrCode (owns the QRCodeStyling instance), useTheme
+  hooks/          useQrCode (owns the QRCodeStyling instance), useTheme,
+                  useScanPrediction (lazily runs the beta model)
   lib/
-    payload.ts    Builds the encoded string per content kind, with escaping
-    validation.ts Field validation and byte-capacity assessment
-    contrast.ts   WCAG luminance maths and the scannability rating
-    qrOptions.ts  Maps app style state onto qr-code-styling options
-    defaults.ts   Empty drafts and the default style
+    payload.ts      Builds the encoded string per content kind, with escaping
+    validation.ts   Field validation and byte-capacity assessment
+    contrast.ts     WCAG luminance maths and the scannability rating
+    qrOptions.ts    Maps app style state onto qr-code-styling options
+    defaults.ts     Empty drafts and the default style
+    scanFeatures.ts The feature vector the model sees — shared with the harness
+    scanModel.ts    The forward pass, hand-written over exported weights
   types/qr.ts     The content and style type model
   assets/fonts/   Self-hosted Inter and JetBrains Mono (SIL OFL 1.1)
+
+tools/scanlab/    Offline research tooling. Renders designs, degrades them
+                  through simulated camera conditions, and decodes them for
+                  real to produce the training labels. Never enters the bundle.
 ```
 
 The encoding logic lives in `src/lib` with no React dependency, which is where
-the test suite is aimed — 77 tests covering payload construction, escaping,
-validation and the contrast maths.
+the test suite is aimed — 105 tests covering payload construction, escaping,
+validation, the contrast maths, and the model's feature vector and forward
+pass.
+
+One of those tests is load-bearing in an unusual way. `scanModel.test.ts` pins
+the TypeScript forward pass against probabilities scikit-learn actually
+produced, to nine decimal places. Features already come from a single shared
+module; that test closes the other half, so a drift between how the model was
+trained and how it runs in the browser fails a build instead of silently
+scoring designs wrong.
 
 ## Testing
 
