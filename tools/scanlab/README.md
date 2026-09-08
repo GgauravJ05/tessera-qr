@@ -97,7 +97,7 @@ model could ever learn it.
 > matrix that `binarize` was never asked to produce, and dereferences
 > undefined. `attemptBoth` is used instead.
 
-## Calibration
+## Ladder calibration
 
 The sweeps were tuned, not guessed. The first pass ran probes at 4 px per
 module and nearly every axis saturated: almost nothing broke, so the axes
@@ -132,12 +132,156 @@ result about the defect, not a bug in the sweep.
   results are conservative. A second decoder would turn each label into a vote.
 - **No perspective.** Codes photographed off-axis are not yet modelled.
 
+## Stage 2 — building the dataset
+
+```bash
+node tools/scanlab/generate.mjs --count 5000 --out data/scans.jsonl --seed 1
+```
+
+Writes one JSON object per line: the design, its geometry, its feature vector
+and its labels. Runs at roughly 1/s, so 5,000 designs is about ninety minutes.
+Seeded and resumable — killing it and restarting continues the same random
+stream rather than starting a different one, because a dataset assembled from
+two streams is not the dataset its seed claims to be.
+
+Datasets are gitignored. Regenerate from the seed instead of committing them.
+
+### Features live in the app, not here
+
+`src/lib/scanFeatures.ts` holds the feature extractor, and the harness calls it
+through the same bridge it renders through. Train/serve skew — features
+computed one way during training and another at inference — is the quietest way
+to break a deployed model, because nothing errors, the numbers just stop
+meaning what they meant. One implementation used by both sides makes that
+impossible by construction rather than by discipline.
+
+`FEATURE_NAMES` is a positional contract. A model is only weights over those
+positions, so reordering the array invalidates every model trained against it.
+Append, never insert.
+
+### The sampler is where the dataset is won or lost
+
+Two rounds of diagnosis changed it substantially.
+
+**Flat contrast bins produced a dataset with nothing to learn.** A first trial
+came back 47% failures, and 18 of those 19 failures were explained by contrast
+below 3:1 alone — exactly what the shipped heuristic already catches. A model
+trained on that would have rediscovered the threshold and stopped. The bands at
+or below 3:1 are now sampled thinly and the budget goes above it, where shape,
+logo coverage, quiet zone and density decide the outcome.
+
+**Gradient ends drawn at random made "gradient" mean "broken".** Two thirds of
+all gradients ended up pale, which would have taught a rule real designs do not
+obey. Ends are now drawn within a colour family, with a minority still drawn
+freely — a gradient that fades into the background is a real failure the app's
+foreground-versus-background check cannot see.
+
+The finished 5,000-design set runs 40.1% failures, with 894 designs penalised
+for being light-on-dark and none unencodable.
+
+## Stage 3 — results
+
+```bash
+tools/scanlab/train/.venv/bin/python tools/scanlab/train/train.py
+```
+
+Trained on 5,000 designs, 1,250 held out for test.
+
+### Against the shipped heuristic
+
+Judged at the heuristic's _own_ false-alarm rate. Any classifier can catch more
+failures by crying wolf more often, and a warning that fires on good designs is
+worse than useless, so matching the false-alarm budget is the only fair
+comparison.
+
+| model                           | failures caught | false alarms | AUC   |
+| ------------------------------- | --------------- | ------------ | ----- |
+| shipped heuristic (`ratio < 3`) | 36.1%           | 5.1%         | —     |
+| logistic regression             | 37.6%           | 5.1%         | 0.791 |
+| gradient boosting               | **57.6%**       | 5.1%         | 0.895 |
+| MLP (24, 12)                    | 55.6%           | 5.1%         | 0.887 |
+| MLP, contrast features only     | 34.7%           | 5.1%         | 0.655 |
+
+Five-fold AUC: gradient boosting 0.914 ± 0.011, MLP 0.896 ± 0.011. The tight
+spread says these are stable, not one lucky split.
+
+### Did it just relearn contrast?
+
+No, and this is the result worth defending. Trained on contrast features alone
+the model reaches 0.655 AUC and catches 34.7% of failures — slightly _worse_
+than the two-line rule it was meant to replace. Adding the design features
+takes it to 0.895. Contrast was never the hard part.
+
+### What it actually leans on
+
+Permutation importance, as AUC lost when a feature is shuffled:
+
+| feature                 | drop  |
+| ----------------------- | ----- |
+| `gradient_min_contrast` | 0.149 |
+| `corner_square_square`  | 0.078 |
+| `capacity_usage`        | 0.072 |
+| `corner_square_dot`     | 0.065 |
+| `corner_dot_dot`        | 0.064 |
+| `corner_dot_square`     | 0.060 |
+| `gradient_end_contrast` | 0.040 |
+| `contrast_log`          | 0.033 |
+
+Two things stand out. The strongest single feature is the _weakest end of the
+gradient_, which the app does not currently check at all since it compares only
+foreground to background. And corner-shape features take four of the top six
+places, collectively outweighing contrast by a wide margin. That has a physical
+explanation: the finder patterns are what a decoder uses to locate the symbol
+at all, so deforming them costs more than dimming the whole code.
+
+Plain `contrast_ratio` does not reach the top ten.
+
+### Why the MLP ships and not the winner
+
+Gradient boosting is the better model and is not the one being deployed.
+Pickled it is **1,067 KB** against a 764 KB app — it would more than double the
+bundle and break the precache economics that make the offline claim work. The
+MLP is ~1,200 weights, **13.8 KB** as rounded JSON, and captures 96% of the
+booster's improvement over the heuristic.
+
+That is the trade: two points of catch rate for 98.7% of the size. The MLP also
+runs as a forty-line forward pass with no runtime dependency, where shipping the
+booster would mean either an ONNX runtime measured in megabytes or a tree walker
+to hand-write and test.
+
+### Calibration
+
+Brier score 0.167.
+
+| predicted | actual | n   |
+| --------- | ------ | --- |
+| 0–20%     | 21%    | 439 |
+| 20–40%    | 45%    | 29  |
+| 40–60%    | 36%    | 33  |
+| 60–80%    | 69%    | 26  |
+| 80–100%   | 84%    | 682 |
+
+The extremes are well calibrated and hold 90% of all predictions. The middle
+bands are unreliable but thinly populated. The honest conclusion is that the UI
+should show **bands** — likely, marginal, unlikely — rather than a precise
+percentage the middle of the range cannot support.
+
+### What is not good enough to ship
+
+The distance regressor predicts how far a design reads to within **2.29 rungs**
+on average. That is too coarse to tell a user "reads to about two metres", so
+the claim is dropped rather than dressed up. The badge stays a decode verdict,
+which is what the evidence supports.
+
 ## Files
 
-| File            | Role                                                    |
-| --------------- | ------------------------------------------------------- |
-| `ladder.mjs`    | The degradation ladder and sweeps. The scientific core. |
-| `page/lab.js`   | Runs in the browser: render, degrade, decode.           |
-| `page/entry.ts` | Re-exports the app's modules into the page.             |
-| `runner.mjs`    | Chrome lifecycle, geometry, label summarisation.        |
-| `cli.mjs`       | The smoke test.                                         |
+| File             | Role                                                      |
+| ---------------- | --------------------------------------------------------- |
+| `ladder.mjs`     | The degradation ladder and sweeps. The scientific core.   |
+| `page/lab.js`    | Runs in the browser: render, degrade, decode.             |
+| `page/entry.ts`  | Re-exports the app's modules into the page.               |
+| `runner.mjs`     | Chrome lifecycle, geometry, label summarisation.          |
+| `sampler.mjs`    | Draws designs across the space.                           |
+| `generate.mjs`   | Writes the labelled dataset.                              |
+| `cli.mjs`        | The smoke test.                                           |
+| `train/train.py` | Trains, evaluates against the heuristic, exports weights. |

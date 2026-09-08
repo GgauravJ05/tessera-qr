@@ -215,6 +215,53 @@ def main():
         f"at the same {heur_fpr * 100:.1f}% false-alarm rate"
     )
 
+    # ---- is the headline number stable, or one lucky split? ---------------
+    from sklearn.inspection import permutation_importance
+    from sklearn.model_selection import StratifiedKFold, cross_val_score
+    from sklearn.pipeline import make_pipeline
+
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED)
+    for label in ("gradient boosting", "MLP (24, 12)"):
+        model, scaled = models[label]
+        pipe = make_pipeline(StandardScaler(), model) if scaled else model
+        scores = cross_val_score(pipe, X, y, cv=cv, scoring="roc_auc")
+        print(f"  5-fold AUC, {label:<20} {scores.mean():.3f} +/- {scores.std():.3f}")
+
+    # ---- would the badge's percentage mean anything? -----------------------
+    # An AUC only says the ranking is good. If the app is going to show a
+    # number, that number has to match reality: of the designs it calls 70%
+    # likely, roughly 70% should decode.
+    mlp = results["MLP (24, 12)"]["model"]
+    proba = mlp.predict_proba(Xs_te)[:, 1]
+    brier = float(np.mean((proba - y_te) ** 2))
+    print(f"\n  Calibration (Brier score, lower is better): {brier:.3f}")
+    print(f"  {'predicted':>12}{'actual':>10}{'n':>8}")
+    for lo in np.arange(0.0, 1.0, 0.2):
+        band = (proba >= lo) & (proba < lo + 0.2)
+        if band.sum() >= 10:
+            print(
+                f"  {f'{lo:.0%}-{lo + 0.2:.0%}':>12}"
+                f"{y_te[band].mean():>10.0%}{int(band.sum()):>8}"
+            )
+
+    # ---- what did it actually learn? --------------------------------------
+    imp = permutation_importance(
+        mlp, Xs_te, y_te, n_repeats=10, random_state=SEED, scoring="roc_auc"
+    )
+    order = np.argsort(imp.importances_mean)[::-1][:10]
+    print("\n  What the model leans on (permutation importance, AUC drop)")
+    for i in order:
+        print(f"    {names[i]:<26}{imp.importances_mean[i]:.4f}")
+
+    # ---- the size the accuracy costs --------------------------------------
+    import pickle
+
+    gbm_bytes = len(pickle.dumps(results["gradient boosting"]["model"]))
+    print(
+        f"\n  Gradient boosting is {gbm_bytes / 1024:.0f} KB pickled; the MLP is\n"
+        f"  ~1,200 weights. See the export note below."
+    )
+
     # ---- secondary: how far does it read? ---------------------------------
     decoded = rung >= 0
     if decoded.sum() > 100:
