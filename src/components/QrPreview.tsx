@@ -5,6 +5,7 @@ import type { CapacityReport } from '@/lib/validation';
 import type { ScannabilityReport } from '@/lib/contrast';
 import type { ExportFormat, QrStyle } from '@/types/qr';
 import { useQrCode } from '@/hooks/useQrCode';
+import { ScanModelBeta } from './ScanModelBeta';
 import { ScannabilityBadge } from './ScannabilityBadge';
 import { Button } from './ui/Button';
 import { Select } from './ui/Input';
@@ -78,6 +79,7 @@ export function QrPreview({
       )}
 
       {ready && <ScannabilityBadge report={scannability} />}
+      {ready && <ScanModelBeta payload={payload} style={style} />}
 
       <div className="space-y-1.5">
         <div className="flex items-baseline justify-between text-xs">
