@@ -16,7 +16,15 @@
   "overrides": [
     {
       "files": ["**/*.test.ts", "**/*.test.tsx", "src/test/**"],
-      "rules": { "no-console": "off" }
+      "rules": {
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["tools/**"],
+      "rules": {
+        "no-console": "off"
+      }
     }
   ]
 }

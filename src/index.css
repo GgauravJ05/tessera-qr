@@ -1,6 +1,14 @@
 @import 'tailwindcss';
 @import './assets/fonts.css';
 
+/*
+ * Tailwind v4 detects its sources automatically from the project root, which
+ * means any tracked directory can leak utilities into the shipped stylesheet.
+ * `tools/` is offline tooling that never renders anything, and without this it
+ * added 413 bytes of dead CSS to the app's bundle.
+ */
+@source not '../tools';
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {

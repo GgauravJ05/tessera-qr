@@ -43,7 +43,9 @@
     "format": "prettier --write .",
     "typecheck": "tsc -b --noEmit",
     "lint:fix": "oxlint --fix",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lab:build": "rolldown -c tools/scanlab/rolldown.config.mjs",
+    "lab:smoke": "npm run lab:build && node tools/scanlab/cli.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -63,7 +65,9 @@
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/coverage-v8": "^5.0.0",
     "jsdom": "^29.1.1",
+    "jsqr": "^1.4.0",
     "oxlint": "^1.82.0",
+    "playwright-core": "^1.63.0",
     "prettier": "^3.9.6",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
