@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ShieldCheck } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 import type { ContentKind, QrContent, QrStyle } from '@/types/qr';
 import { DEFAULT_STYLE, EMPTY_CONTENT } from '@/lib/defaults';
 import { buildPayload } from '@/lib/payload';
@@ -146,6 +147,7 @@ export default function App() {
       </main>
 
       <Footer />
+      <Analytics />
     </div>
   );
 }
