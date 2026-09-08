@@ -70,8 +70,15 @@ export default function App() {
       assessScannability(
         style.foreground,
         style.transparentBackground ? '#ffffff' : style.background,
+        style.useGradient ? style.gradientTo : undefined,
       ),
-    [style.foreground, style.background, style.transparentBackground],
+    [
+      style.foreground,
+      style.background,
+      style.transparentBackground,
+      style.useGradient,
+      style.gradientTo,
+    ],
   );
 
   const updateStyle = (patch: Partial<QrStyle>) =>

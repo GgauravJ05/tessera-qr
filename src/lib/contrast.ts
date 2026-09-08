@@ -58,9 +58,18 @@ export function contrastRatio(a: string, b: string): number {
 export type ScanRisk = 'ok' | 'warn' | 'fail';
 
 export interface ScannabilityReport {
+  /**
+   * Contrast at the symbol's weakest point. For a gradient this is the paler
+   * of the two ends, not an average: modules at the weak end have to survive
+   * on their own, and averaging would hide exactly the failure worth catching.
+   */
   ratio: number;
+  /** Contrast of the foreground alone, before the gradient is considered. */
+  foregroundRatio: number;
   risk: ScanRisk;
   inverted: boolean;
+  /** True when the gradient's far end is the weaker of the two. */
+  gradientIsWeakest: boolean;
   messages: string[];
 }
 
@@ -72,11 +81,30 @@ export interface ScannabilityReport {
 export const CONTRAST_FAIL_BELOW = 3;
 export const CONTRAST_WARN_BELOW = 4.5;
 
+/**
+ * `gradientTo` is the far end of a gradient foreground, when there is one.
+ *
+ * It matters more than the foreground does. Measuring scannability only at the
+ * foreground colour misses the most common way a styled code fails: a gradient
+ * that starts strong and fades into the background leaves the modules at that
+ * end with nothing to stand on, while the colour the user picked first still
+ * looks perfectly safe.
+ *
+ * The thresholds below are unchanged and are applied to whichever end is
+ * weaker, so a code without a gradient is assessed exactly as before.
+ */
 export function assessScannability(
   foreground: string,
   background: string,
+  gradientTo?: string,
 ): ScannabilityReport {
-  const ratio = contrastRatio(foreground, background);
+  const foregroundRatio = contrastRatio(foreground, background);
+  const endRatio =
+    gradientTo === undefined ? foregroundRatio : contrastRatio(gradientTo, background);
+
+  const ratio = Math.min(foregroundRatio, endRatio);
+  const gradientIsWeakest = endRatio < foregroundRatio;
+
   const fg = parseHex(foreground);
   const bg = parseHex(background);
   const inverted =
@@ -88,12 +116,16 @@ export function assessScannability(
   if (ratio < CONTRAST_FAIL_BELOW) {
     risk = 'fail';
     messages.push(
-      'Contrast is too low for most cameras to decode. Darken the foreground or lighten the background.',
+      gradientIsWeakest
+        ? 'The far end of the gradient fades into the background, so those modules will not decode. Darken the second colour.'
+        : 'Contrast is too low for most cameras to decode. Darken the foreground or lighten the background.',
     );
   } else if (ratio < CONTRAST_WARN_BELOW) {
     risk = 'warn';
     messages.push(
-      'Contrast is marginal. This may fail in low light or on textured paper.',
+      gradientIsWeakest
+        ? 'The far end of the gradient is marginal. That end may fail in low light or on textured paper.'
+        : 'Contrast is marginal. This may fail in low light or on textured paper.',
     );
   }
 
@@ -104,5 +136,5 @@ export function assessScannability(
     );
   }
 
-  return { ratio, risk, inverted, messages };
+  return { ratio, foregroundRatio, risk, inverted, gradientIsWeakest, messages };
 }

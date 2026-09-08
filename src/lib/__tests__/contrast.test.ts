@@ -79,3 +79,44 @@ describe('assessScannability', () => {
     expect(report.messages.join(' ')).toMatch(/older scanners/i);
   });
 });
+
+describe('assessScannability with a gradient', () => {
+  it('is unchanged when there is no gradient', () => {
+    const plain = assessScannability('#767676', '#ffffff');
+    const explicitlyNone = assessScannability('#767676', '#ffffff', undefined);
+    expect(explicitlyNone).toEqual(plain);
+    expect(plain.gradientIsWeakest).toBe(false);
+    expect(plain.ratio).toBeCloseTo(plain.foregroundRatio, 6);
+  });
+
+  it('fails a code whose gradient fades into the background', () => {
+    // The colour the user picked first is pure black against white — the old
+    // check would have called this excellent.
+    const report = assessScannability('#000000', '#ffffff', '#f7f7f7');
+    expect(report.foregroundRatio).toBeGreaterThan(20);
+    expect(report.ratio).toBeLessThan(1.2);
+    expect(report.risk).toBe('fail');
+    expect(report.gradientIsWeakest).toBe(true);
+    expect(report.messages[0]).toMatch(/gradient/i);
+  });
+
+  it('warns when only the far end is marginal', () => {
+    const report = assessScannability('#000000', '#ffffff', '#8a8a8a');
+    expect(report.risk).toBe('warn');
+    expect(report.gradientIsWeakest).toBe(true);
+    expect(report.messages[0]).toMatch(/far end/i);
+  });
+
+  it('reports the weaker end even when that is the foreground', () => {
+    const report = assessScannability('#9a9a9a', '#ffffff', '#000000');
+    expect(report.gradientIsWeakest).toBe(false);
+    expect(report.ratio).toBeCloseTo(report.foregroundRatio, 6);
+    expect(report.messages[0]).not.toMatch(/gradient/i);
+  });
+
+  it('still passes a gradient that stays dark at both ends', () => {
+    const report = assessScannability('#111827', '#ffffff', '#4338ca');
+    expect(report.risk).toBe('ok');
+    expect(report.messages).toHaveLength(0);
+  });
+});
