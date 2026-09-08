@@ -45,3 +45,8 @@ tools/scanlab/page/vendor/
 
 # Generated datasets
 data/
+
+# Python training environment
+tools/scanlab/train/.venv/
+__pycache__/
+tools/scanlab/train/artifacts/

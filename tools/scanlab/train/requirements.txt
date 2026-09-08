@@ -1,0 +1,5 @@
+# Stage 3 training environment.
+#   python3 -m venv tools/scanlab/train/.venv
+#   tools/scanlab/train/.venv/bin/pip install -r tools/scanlab/train/requirements.txt
+numpy>=2.0
+scikit-learn>=1.5

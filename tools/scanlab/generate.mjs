@@ -9,7 +9,13 @@
  *
  *   node tools/scanlab/generate.mjs --count 5000 --out data/scans.jsonl
  */
-import { appendFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
+import {
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname } from 'node:path';
 import { openLab, runDesign, featureNames } from './runner.mjs';
 import { mulberry32, sampleDesign } from './sampler.mjs';
@@ -75,6 +81,10 @@ const run = async () => {
   /* oxlint-disable no-await-in-loop */
   try {
     const names = await featureNames(lab.page);
+    // Sidecar so the training script never has to guess the column order.
+    // The vector is meaningless without it: a model is only weights over
+    // positions, and reading them in the wrong order fails silently.
+    writeFileSync(`${args.out}.features.json`, JSON.stringify(names, null, 2));
 
     for (let i = done; i < args.count; i++) {
       const design = sampleDesign(rng, binCounts);
