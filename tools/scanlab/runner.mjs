@@ -85,7 +85,17 @@ export async function runDesign(page, { payload, style, seed = 1 }) {
     [spec, { DISTANCE_LADDER, DISTANCE_BASELINE, PROBE_BASELINE, PROBES }],
   );
 
-  return { geometry, labels: summarise(raw) };
+  // Features are extracted in the page by the app's own module rather than
+  // reimplemented here. That is the whole point of the bridge: whatever the
+  // app will compute at inference time is exactly what gets written to the
+  // training set, so the two cannot drift apart.
+  const features = await page.evaluate(
+    ([p, st, mc]) =>
+      TesseraLib.extractFeatures({ payload: p, style: st, moduleCount: mc }),
+    [payload, style, geometry.moduleCount],
+  );
+
+  return { geometry, features, labels: summarise(raw) };
 }
 
 /**
@@ -138,9 +148,11 @@ function summarise(raw) {
 /**
  * Measures the real dot size off a render and compares it to the computed one.
  *
- * Renders a plain black square-dot symbol and walks the row through the middle
- * of the top-left finder pattern. A finder is exactly 7 modules wide by
- * definition, so the dark run divided by 7 is the true pixels-per-module.
+ * Renders a plain black square-dot symbol and finds the topmost dark row,
+ * which is the top edge of the upper finder patterns. A finder is exactly 7
+ * modules wide by definition, so that dark run divided by 7 is the true
+ * pixels-per-module. Nothing about the symbol's position is assumed, because
+ * the first version of this assumed wrongly.
  */
 export async function verifyGeometry(page, payload, style) {
   const geometry = geometryFor(payload, style);
@@ -212,6 +224,11 @@ export async function verifyGeometry(page, payload, style) {
     measuredOrigin: measured.left,
     measuredDotPx: measured.run / 7,
   };
+}
+
+/** The feature column names, read from the app's own module. */
+export async function featureNames(page) {
+  return await page.evaluate(() => TesseraLib.FEATURE_NAMES);
 }
 
 export { DISTANCE_LADDER, PROBES };

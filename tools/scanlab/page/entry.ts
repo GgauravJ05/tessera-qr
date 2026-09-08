@@ -17,3 +17,4 @@ export {
 } from '../../../src/lib/contrast';
 export { assessCapacity, payloadBytes } from '../../../src/lib/validation';
 export { DEFAULT_STYLE, PRESETS } from '../../../src/lib/defaults';
+export { extractFeatures, FEATURE_NAMES } from '../../../src/lib/scanFeatures';
