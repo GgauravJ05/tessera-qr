@@ -18,3 +18,8 @@ export {
 export { assessCapacity, payloadBytes } from '../../../src/lib/validation';
 export { DEFAULT_STYLE, PRESETS } from '../../../src/lib/defaults';
 export { extractFeatures, FEATURE_NAMES } from '../../../src/lib/scanFeatures';
+export {
+  bandFor,
+  loadScanModel,
+  predictScanProbability,
+} from '../../../src/lib/scanModel';

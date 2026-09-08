@@ -273,6 +273,88 @@ on average. That is too coarse to tell a user "reads to about two metres", so
 the claim is dropped rather than dressed up. The badge stays a decode verdict,
 which is what the evidence supports.
 
+## Stage 4 — shipping it
+
+The model is opt-in and off by default. It sits beside the contrast check
+rather than replacing it, because it is trained on simulated conditions and one
+decoder: the ordering it produces is trustworthy, the absolute rates are not
+validated yet, and until Stage 5 says otherwise it has not earned the right to
+overrule a rule that has. Showing both also surfaces disagreements on real
+designs, which is the cheapest way to find them.
+
+`src/lib/scanModel.ts` is a hand-written forward pass over exported weights.
+Three dense layers and ~1,200 weights do not justify a model runtime measured
+in megabytes.
+
+### The parity test is the point
+
+`scanModel.test.ts` pins the TypeScript against 24 feature vectors and the
+probabilities scikit-learn produced for them, to nine decimal places. Features
+already come from one shared module; this closes the other half, so "no
+train/serve skew" is something a test fails on rather than an intention.
+
+Getting it to pass turned up two real problems:
+
+- The fixture was first generated from scikit-learn's **full-precision**
+  weights rather than the rounded ones that ship, which would have baked a
+  permanent ~1e-7 discrepancy into the test and forced a tolerance loose enough
+  to hide a genuine bug. It is now generated from the shipped weights.
+- **Rounding the scaler was a mistake.** Its terms are divided by, and the
+  smallest scale here is 0.049, where six decimal places leaves only five
+  significant figures — enough relative error to move a prediction by 5e-5. The
+  scaler ships at full precision (72 numbers); only the ~1,200 layer weights
+  are rounded, which halves the file. An assertion fails if rounding ever moves
+  a prediction by more than 1e-3.
+
+### Cost to the app
+
+Everything the feature needs is behind dynamic imports — weights, encoder,
+feature extractor, forward pass. Verified in a real browser rather than
+assumed: no model chunk is requested until the toggle is clicked.
+
+| chunk              | size    | when                              |
+| ------------------ | ------- | --------------------------------- |
+| `scanModel.data`   | 12.3 kB | on opt-in                         |
+| `qrcode-generator` | 21.1 kB | on opt-in                         |
+| `scanModel`        | 0.8 kB  | on opt-in                         |
+| main bundle        | +4.5 kB | always — the toggle has to render |
+
+`qrcode-generator` is pinned to the copy `qr-code-styling` encodes with. npm
+first resolved 2.0.4 against the 1.5.2 nested inside the renderer, which would
+have meant counting modules with one encoder while drawing with another.
+
+## Stage 5 — real-device validation
+
+```bash
+node tools/scanlab/validate.mjs --count 40   # builds the sheet
+# print sheet.html at 100%, scan every code, fill in results.csv
+node tools/scanlab/score.mjs                 # scores it
+```
+
+Everything above came from a simulation. This is the apparatus for checking it
+against actual phones, and it is what decides whether the model becomes the
+default.
+
+**The selection is the important part.** Forty random designs would mostly
+re-measure cases where the two methods already agree, and agreement proves
+nothing about which to trust. The sheet is built around disagreements —
+designs the model condemns and the rule passes, and the reverse. Whichever way
+those scan is the answer. A typical sheet is 35% model-catches, 25%
+model-clears, 40% controls.
+
+Two deliberate choices:
+
+- **The sheet carries no predictions.** Knowing what was expected while holding
+  the phone is how you talk yourself into a decode that did not happen.
+- **A code that fails on any tested phone counts as failed.** The promise the
+  app makes is that it will scan, not that it will scan on the reviewer's
+  handset.
+
+`score.mjs` also compares the simulated rung against real outcomes. If designs
+the harness rated highly fail in the hand, every number upstream of it is
+suspect. It is written to be able to return a negative verdict — if the model
+loses, it stays in beta, and that is the finding.
+
 ## Files
 
 | File             | Role                                                      |
@@ -283,5 +365,7 @@ which is what the evidence supports.
 | `runner.mjs`     | Chrome lifecycle, geometry, label summarisation.          |
 | `sampler.mjs`    | Draws designs across the space.                           |
 | `generate.mjs`   | Writes the labelled dataset.                              |
+| `validate.mjs`   | Builds the real-device validation sheet.                  |
+| `score.mjs`      | Scores real-device results against both methods.          |
 | `cli.mjs`        | The smoke test.                                           |
 | `train/train.py` | Trains, evaluates against the heuristic, exports weights. |
