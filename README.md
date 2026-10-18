@@ -1,6 +1,6 @@
 # Tessera
 
-**Craft QR codes worth scanning.**
+**Proof the code before the run.**
 
 [![CI](https://github.com/GgauravJ05/tessera-qr/actions/workflows/ci.yml/badge.svg)](https://github.com/GgauravJ05/tessera-qr/actions/workflows/ci.yml)
 [![Licence: AGPL v3](https://img.shields.io/badge/licence-AGPL--3.0-2f5fe0.svg)](LICENSE)
@@ -17,7 +17,7 @@ free tier ends, or let you pick colours that look great on screen and fail on
 paper. Tessera does neither: it encodes the payload directly into the symbol,
 and it checks contrast and capacity while you design.
 
-![The Tessera studio in dark mode: a link being encoded, with the styled QR code rendering live beside it](screenshots/studio-dark.png)
+![The Tessera studio in its dark Film theme: a link on the job ticket, with the live proof and its press check beside it](screenshots/studio-dark.png)
 
 <table>
   <tr>
@@ -25,14 +25,14 @@ and it checks contrast and capacity while you design.
     <td width="50%"><img alt="A low-contrast colour pair flagged as likely unscannable at 1.7:1" src="screenshots/contrast.png"></td>
   </tr>
   <tr>
-    <td><em>Light theme — the same studio.</em></td>
-    <td><em>A pretty colour pair, caught before it reaches a printer.</em></td>
+    <td><em>Paper, the light theme: the same studio.</em></td>
+    <td><em>A pale ink, rated 1.4:1 and stamped before it reaches a printer.</em></td>
   </tr>
 </table>
 
 ## Features
 
-![Tessera's landing page](screenshots/hero.png)
+![Tessera's first screen: a proof sheet with the headline, a job ticket, the stamp and a live QR code inside trim marks](screenshots/hero.png)
 
 **Nine content kinds** — URL, plain text, WiFi credentials, vCard contacts,
 email, SMS, phone, geo coordinates and calendar events. Each tab keeps its own
@@ -67,6 +67,26 @@ export instead of after.
 gradient foreground; transparent background; a centre logo with adjustable size
 and quiet margin; and error correction from L to H.
 
+**A press check, not a badge.** Every design is read line by line: contrast
+at the weakest point, dark-on-light, capacity, quiet zone in modules against
+the specification's four, logo coverage against what the correction level can
+rebuild, plus the print-size and two-phone advice. The stamp that downloads
+the file carries the verdict: _Pass for press_, _Pass with notes_ or _Not for
+press_.
+
+**Proofs you can watch.** The landing page puts a failing gradient next to its
+correction under a draggable divider, and moves a simulated camera away from
+your own design rung by rung. Both run the scanlab capture and the jsQR decoder
+on your device, so the verdicts on the page are measured, not written.
+
+**The lab (`/lab/`).** The method, the 5,000-design dataset, the model results
+at a matched false-alarm rate, calibration, and a plain list of what is not
+claimed yet.
+
+**The proof wall (`/gallery/`).** Twelve designs measured on your device and
+hung by how far they read, plus _Break it_: push a plain code as far as you dare
+and score boldness times reach. Your best is kept in your browser only.
+
 **Export** to PNG, SVG, JPEG or WebP at up to 4096 px, or copy the PNG straight
 to the clipboard. Exports re-render at full output resolution rather than
 upscaling the preview.
@@ -83,7 +103,7 @@ silently truncate the payload in a naive generator.
 
 ## Tech
 
-React 19 · TypeScript 7 · Vite 8 · Tailwind CSS v4 · `qr-code-styling` ·
+React 19 · TypeScript 7 · Vite 8 · Tailwind CSS v4 · `qr-code-styling` · `motion` · `jsQR` ·
 `vite-plugin-pwa` (Workbox) · Vitest + Testing Library · oxlint · Prettier
 
 No backend, no analytics, no third-party requests — not even for fonts.
@@ -125,10 +145,15 @@ Then open the URL Vite prints (usually http://localhost:5173).
 ## Project structure
 
 ```
+index.html, lab/index.html, gallery/index.html
+                  One HTML entry per page, so /lab/ and /gallery/ need no rewrites
 src/
-  components/     UI — studio panels, marketing sections, ui/ primitives
+  components/     The sheet, studio, proof sections and ui/ primitives
+    proof/        Printer's marks, the control strip, the stamp, the ladder wedge
+  pages/          The lab report and the proof wall
   hooks/          useQrCode (owns the QRCodeStyling instance), useTheme,
-                  useScanPrediction (lazily runs the beta model)
+                  useScanPrediction (lazily runs the beta model),
+                  useProofLab (module counts and on-device ladder walks)
   lib/
     payload.ts      Builds the encoded string per content kind, with escaping
     validation.ts   Field validation and byte-capacity assessment
@@ -137,8 +162,13 @@ src/
     defaults.ts     Empty drafts and the default style
     scanFeatures.ts The feature vector the model sees — shared with the harness
     scanModel.ts    The forward pass, hand-written over exported weights
+    ladder.ts       The scanlab distance ladder, pinned to the lab's by a test
+    proofLab.ts     The lab's capture and jsQR decode, run in the browser
+    readiness.ts    The press check and the stamp's verdict
+    challenge.ts    Break it: the published boldness table and the score
+    share.ts        Design links between the proof wall and the studio
   types/qr.ts     The content and style type model
-  assets/fonts/   Self-hosted Inter and JetBrains Mono (SIL OFL 1.1)
+  assets/fonts/   Self-hosted Archivo and JetBrains Mono (SIL OFL 1.1)
 
 tools/scanlab/    Offline research tooling. Renders designs, degrades them
                   through simulated camera conditions, and decodes them for
@@ -146,9 +176,10 @@ tools/scanlab/    Offline research tooling. Renders designs, degrades them
 ```
 
 The encoding logic lives in `src/lib` with no React dependency, which is where
-the test suite is aimed — 105 tests covering payload construction, escaping,
-validation, the contrast maths, and the model's feature vector and forward
-pass.
+the test suite is aimed — 135 tests covering payload construction, escaping,
+validation, the contrast maths, the press check, the ladder's parity with the
+lab, design links, the challenge score, and the model's feature vector and
+forward pass.
 
 One of those tests is load-bearing in an unusual way. `scanModel.test.ts` pins
 the TypeScript forward pass against probabilities scikit-learn actually
