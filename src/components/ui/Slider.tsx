@@ -1,3 +1,5 @@
+import { useId } from 'react';
+
 const identity = (value: number) => String(value);
 
 interface SliderProps {
@@ -10,6 +12,7 @@ interface SliderProps {
   onChange: (value: number) => void;
 }
 
+/** A ruler with a registration-mark thumb and its reading set beside it. */
 export function Slider({
   label,
   value,
@@ -19,13 +22,17 @@ export function Slider({
   format = identity,
   onChange,
 }: SliderProps) {
+  const id = useId();
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-baseline justify-between">
-        <span className="text-[13px] font-medium text-ink-muted">{label}</span>
-        <span className="font-mono text-xs text-ink-subtle">{format(value)}</span>
+    <div className="min-w-0 space-y-1">
+      <div className="flex items-baseline justify-between gap-3">
+        <label htmlFor={id} className="type-label text-ink-2">
+          {label}
+        </label>
+        <span className="type-reading text-[14px] text-ink">{format(value)}</span>
       </div>
       <input
+        id={id}
         type="range"
         aria-label={label}
         value={value}
