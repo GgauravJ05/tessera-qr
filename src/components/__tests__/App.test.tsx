@@ -15,14 +15,21 @@ vi.mock('qr-code-styling', () => ({
 
 import App from '@/App';
 
+/** The studio's proof panel, where the export controls live. */
+const proof = () => within(screen.getByRole('complementary', { name: 'Proof' }));
+
 describe('App', () => {
-  it('starts on the Link tab with the download disabled', () => {
+  it('starts on the Link tab with the sample proof, not a download', () => {
     render(<App />);
     expect(screen.getByRole('tab', { name: 'Link' })).toHaveAttribute(
       'aria-selected',
       'true',
     );
-    expect(screen.getByRole('button', { name: /download/i })).toBeDisabled();
+    expect(proof().getByText('Sample proof')).toBeInTheDocument();
+    expect(proof().queryByRole('button', { name: /download/i })).not.toBeInTheDocument();
+    expect(
+      proof().getByRole('button', { name: /add your content first/i }),
+    ).toBeEnabled();
     expect(screen.getByText(/fill in the details/i)).toBeInTheDocument();
   });
 
@@ -32,7 +39,7 @@ describe('App', () => {
 
     await user.type(screen.getByLabelText(/destination url/i), 'example.com');
 
-    expect(screen.getByRole('button', { name: /download/i })).toBeEnabled();
+    expect(proof().getByRole('button', { name: /download/i })).toBeEnabled();
     expect(screen.queryByText(/fill in the details/i)).not.toBeInTheDocument();
   });
 
@@ -75,7 +82,8 @@ describe('App', () => {
     await user.type(screen.getByLabelText(/^to$/i), 'not-an-email');
 
     expect(await screen.findByText(/valid email/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /download/i })).toBeDisabled();
+    expect(proof().queryByRole('button', { name: /download/i })).not.toBeInTheDocument();
+    expect(proof().getByRole('button', { name: /fix the ticket first/i })).toBeEnabled();
   });
 
   it('warns when a chosen colour pair is too faint to scan', async () => {
@@ -137,5 +145,49 @@ describe('App', () => {
 
     const meter = screen.getByRole('progressbar', { name: /capacity/i });
     expect(within(meter.parentElement!).getByText(/5 \/ 1663 bytes/)).toBeInTheDocument();
+  });
+
+  it('mirrors the hero link into the studio, so both edit one design', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.type(screen.getByLabelText(/job link/i), 'example.com');
+
+    expect(screen.getByLabelText(/destination url/i)).toHaveValue('example.com');
+    expect(proof().getByRole('button', { name: /download/i })).toBeEnabled();
+  });
+
+  it('loads a job’s content type and settings', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: /share wifi with guests/i }));
+
+    expect(screen.getByRole('tab', { name: 'WiFi' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    expect(screen.getByLabelText(/dot shape/i)).toHaveValue('square');
+  });
+
+  it('labels the stamp with the press-check verdict', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.type(screen.getByLabelText(/destination url/i), 'example.com');
+
+    const hexField = screen.getByLabelText(/foreground hex value/i);
+    await user.clear(hexField);
+    await user.type(hexField, '#EEEEEE');
+
+    expect(proof().getByRole('button', { name: /not for press/i })).toBeEnabled();
+  });
+
+  it('sends the stamp to the field the ticket is waiting on', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(proof().getByRole('button', { name: /add your content first/i }));
+
+    expect(screen.getByLabelText(/destination url/i)).toHaveFocus();
   });
 });

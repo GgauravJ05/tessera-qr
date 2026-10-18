@@ -3,6 +3,7 @@ import {
   assessScannability,
   contrastRatio,
   parseHex,
+  strengthenToward,
   relativeLuminance,
 } from '../contrast';
 
@@ -118,5 +119,23 @@ describe('assessScannability with a gradient', () => {
     const report = assessScannability('#111827', '#ffffff', '#4338ca');
     expect(report.risk).toBe('ok');
     expect(report.messages).toHaveLength(0);
+  });
+});
+
+describe('strengthenToward', () => {
+  it('leaves a colour that already passes untouched', () => {
+    expect(strengthenToward('#111111', '#ffffff', 4.5)).toBe('#111111');
+  });
+
+  it('darkens a pale gradient end just far enough on a light ground', () => {
+    const fixed = strengthenToward('#d9d2ff', '#ffffff', 4.5);
+    expect(contrastRatio(fixed, '#ffffff')).toBeGreaterThanOrEqual(4.5);
+    // One step lighter would still fail, so it moved no further than needed.
+    expect(contrastRatio(fixed, '#ffffff')).toBeLessThan(5.2);
+  });
+
+  it('lightens toward white on a dark ground', () => {
+    const fixed = strengthenToward('#333344', '#0f172a', 4.5);
+    expect(contrastRatio(fixed, '#0f172a')).toBeGreaterThanOrEqual(4.5);
   });
 });

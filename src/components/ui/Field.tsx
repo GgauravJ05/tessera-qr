@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useId } from 'react';
+import { ProofMark } from '@/components/proof/Marks';
 
 interface FieldProps {
   label: string;
@@ -9,8 +10,9 @@ interface FieldProps {
 }
 
 /**
- * Wraps a control with its label, hint and error, wiring up the aria
- * relationships so screen readers announce the whole group.
+ * A job-ticket field: the field name in the ticket's small capitals, the
+ * entry beneath it, and any correction marked in magenta below. Wires up the
+ * aria relationships so screen readers announce the whole group.
  */
 export function Field({ label, hint, error, children }: FieldProps) {
   const id = useId();
@@ -21,17 +23,22 @@ export function Field({ label, hint, error, children }: FieldProps) {
     .join(' ');
 
   return (
-    <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-[13px] font-medium text-ink-muted">
+    <div className="min-w-0 space-y-1.5">
+      <label htmlFor={id} className="type-label block text-ink-2">
         {label}
       </label>
       {children(id, describedBy || undefined)}
       {error ? (
-        <p id={errorId} role="alert" className="text-xs text-danger">
+        <p
+          id={errorId}
+          role="alert"
+          className="flex items-center gap-1.5 text-[13px] font-medium text-magenta-ink"
+        >
+          <ProofMark kind="fail" size={12} />
           {error}
         </p>
       ) : hint ? (
-        <p id={hintId} className="text-xs text-ink-subtle">
+        <p id={hintId} className="text-[13px] text-ink-2">
           {hint}
         </p>
       ) : null}

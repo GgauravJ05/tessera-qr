@@ -138,3 +138,38 @@ export function assessScannability(
 
   return { ratio, foregroundRatio, risk, inverted, gradientIsWeakest, messages };
 }
+
+/**
+ * The nearest colour to `hex` that reaches `target` contrast against
+ * `background`, keeping its hue: the correction a proofreader would mark,
+ * not a replacement colour. It mixes toward black on a light ground and
+ * toward white on a dark one, in small steps, and stops at the first mix that
+ * passes, so the colour moves no further than it has to.
+ */
+export function strengthenToward(
+  hex: string,
+  background: string,
+  target: number,
+): string {
+  const rgb = parseHex(hex);
+  const bg = parseHex(background);
+  if (!rgb || !bg) return hex;
+  if (contrastRatio(hex, background) >= target) return toHex(rgb);
+
+  const towards = relativeLuminance(bg) > 0.18 ? 0 : 255;
+  for (let step = 1; step <= 100; step++) {
+    const t = step / 100;
+    const mixed = {
+      r: Math.round(rgb.r + (towards - rgb.r) * t),
+      g: Math.round(rgb.g + (towards - rgb.g) * t),
+      b: Math.round(rgb.b + (towards - rgb.b) * t),
+    };
+    const candidate = toHex(mixed);
+    if (contrastRatio(candidate, background) >= target) return candidate;
+  }
+  return towards === 0 ? '#000000' : '#ffffff';
+}
+
+export function toHex({ r, g, b }: Rgb): string {
+  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+}

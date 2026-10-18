@@ -1,83 +1,197 @@
-import { ArrowDown, Lock, Sparkles, Zap } from 'lucide-react';
+import type { QrStyle } from '@/types/qr';
+import type { ScannabilityReport } from '@/lib/contrast';
+import type { CapacityReport } from '@/lib/validation';
+import type { ProofCheck } from '@/lib/readiness';
+import { verdictOf } from '@/lib/readiness';
+import { useQrCode } from '@/hooks/useQrCode';
+import { Input } from './ui/Input';
+import { ControlStrip } from './proof/ControlStrip';
+import { RegisteredCode } from './proof/RegisteredCode';
+import { RegistrationMark } from './proof/Marks';
+import { Stamp } from './proof/Stamp';
+import { ProofMark } from './proof/Marks';
 
-const STATS = [
-  { value: '9', label: 'Content types' },
-  { value: '4', label: 'Export formats' },
-  { value: '0', label: 'Servers involved' },
-];
+/** What the hero shows before the visitor has typed anything of their own. */
+export const SAMPLE_PAYLOAD = 'https://tessera-qr.vercel.app';
 
-export function Hero() {
+/**
+ * The first viewport is a working proof. The job ticket on the left takes
+ * the visitor's own link; the code on the right is rendered from it as they
+ * type; the control strip along the foot reads its inks; and the stamp
+ * downloads the file it has just signed off. The full studio continues one
+ * scroll below, on the same design.
+ */
+export function Hero({
+  url,
+  urlError,
+  onUrlChange,
+  payload,
+  sample,
+  ready,
+  style,
+  scannability,
+  capacity,
+  moduleCount,
+  checks,
+  fileName,
+}: {
+  url: string;
+  urlError?: string;
+  onUrlChange: (url: string) => void;
+  payload: string;
+  sample: boolean;
+  ready: boolean;
+  style: QrStyle;
+  scannability: ScannabilityReport;
+  capacity: CapacityReport;
+  moduleCount: number | null;
+  checks: ProofCheck[];
+  fileName: string;
+}) {
+  const shown = payload;
+  const { containerRef, download } = useQrCode(shown, style, 640);
+  const verdict = verdictOf(checks);
+  const faults = checks.filter((c) => c.status === 'fail' || c.status === 'warn');
+
   return (
-    <section
-      id="top"
-      className="hero-glow hero-grid relative isolate overflow-hidden border-b border-line"
-    >
-      <div className="relative z-10 mx-auto max-w-[1240px] px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3.5 py-1.5 text-[12.5px] font-medium text-ink-muted shadow-[var(--shadow-raise)] backdrop-blur">
-            <Sparkles size={13} className="text-accent" aria-hidden />
-            Static codes that never expire
-          </span>
-
-          <h1 className="animate-rise delay-1 text-display mt-6 text-balance">
-            Craft QR codes
-            <br className="hidden sm:block" />{' '}
-            <span className="bg-gradient-to-r from-accent to-ink bg-clip-text text-transparent">
-              worth scanning.
-            </span>
+    <section id="hero" aria-labelledby="hero-title" className="border-b border-rule">
+      {/* Three parts, so a phone reads headline, code, ticket in that order,
+          while the desktop sets the code beside the other two. */}
+      <div className="grid gap-x-14 gap-y-8 px-4 pb-10 pt-8 sm:px-6 sm:pt-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:px-10 lg:pb-10 lg:pt-10">
+        <div className="min-w-0 lg:col-start-1 lg:row-start-1">
+          <h1 id="hero-title" className="type-display max-w-[11ch] text-balance">
+            Proof the code before the run.
           </h1>
-
-          <p className="animate-rise delay-2 mx-auto mt-6 max-w-xl text-pretty text-[16.5px] leading-relaxed text-ink-muted sm:text-[17.5px]">
-            Links, WiFi, contacts and more — styled to match your brand, checked for
-            real-world scannability, and exported print-ready. Everything runs in your
-            browser; nothing you type is ever uploaded.
+          <p className="mt-6 max-w-[34rem] text-[18px] leading-snug text-ink-2 sm:text-[20px]">
+            Every code measured to scan before it reaches the printer.
           </p>
-
-          <div className="animate-rise delay-3 mt-9 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#studio"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 text-[15px] font-semibold text-on-accent shadow-[var(--shadow-float)] transition-all hover:bg-accent-hover active:scale-[0.98]"
-            >
-              Open the studio
-              <ArrowDown size={16} aria-hidden />
-            </a>
-            <a
-              href="#features"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-surface px-6 py-3 text-[15px] font-semibold text-ink shadow-[var(--shadow-raise)] transition-all hover:border-line-strong active:scale-[0.98]"
-            >
-              How it works
-            </a>
-          </div>
-
-          <ul className="animate-rise delay-3 mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] text-ink-subtle">
-            <li className="inline-flex items-center gap-1.5">
-              <Lock size={13} aria-hidden /> No account, no tracking
-            </li>
-            <li className="inline-flex items-center gap-1.5">
-              <Zap size={13} aria-hidden /> Renders as you type
-            </li>
-            <li className="inline-flex items-center gap-1.5">
-              <Sparkles size={13} aria-hidden /> Free forever
-            </li>
-          </ul>
         </div>
 
-        <dl className="animate-rise delay-3 mx-auto mt-14 grid max-w-2xl grid-cols-3 divide-x divide-line rounded-card border border-line bg-surface/60 py-5 shadow-[var(--shadow-raise)] backdrop-blur">
-          {STATS.map((stat) => (
-            <div key={stat.label} className="px-3 text-center">
-              <dt className="sr-only">{stat.label}</dt>
-              <dd>
-                <span className="block text-2xl font-semibold tracking-tight sm:text-3xl">
-                  {stat.value}
-                </span>
-                <span className="mt-1 block text-[12px] text-ink-subtle">
-                  {stat.label}
-                </span>
-              </dd>
+        <figure className="relative mx-auto w-full max-w-[340px] self-center sm:max-w-[560px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:max-w-none">
+          <div className="relative mx-6 my-6 sm:mx-9 sm:my-9">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -inset-4 border border-dashed border-ink-3 sm:-inset-6"
+            />
+            <RegistrationMark className="absolute -left-9 top-1/2 hidden -translate-y-1/2 text-ink-2 sm:block sm:-left-12" />
+            <RegistrationMark className="absolute -right-9 top-1/2 hidden -translate-y-1/2 text-ink-2 sm:block sm:-right-12" />
+            <RegistrationMark className="absolute -top-9 left-1/2 hidden -translate-x-1/2 text-ink-2 sm:block sm:-top-12" />
+            <RegisteredCode
+              containerRef={containerRef}
+              payload={shown}
+              style={style}
+              label={sample ? 'A sample QR code' : `QR code for ${payload}`}
+            />
+          </div>
+          <figcaption className="type-label mt-2 flex justify-between gap-3 text-ink-2">
+            <span className="truncate">
+              {sample ? 'Sample proof' : payload.replace(/^https?:\/\//, '')}
+            </span>
+            <span className="shrink-0">Static · never expires</span>
+          </figcaption>
+        </figure>
+
+        <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+          <div className="max-w-[36rem] border border-rule">
+            <div className="grid grid-cols-[96px_minmax(0,1fr)] border-b border-rule sm:grid-cols-[120px_minmax(0,1fr)]">
+              <label
+                htmlFor="hero-link"
+                className="type-label flex items-center border-r border-rule px-3 text-ink-2"
+              >
+                Job link
+              </label>
+              <Input
+                id="hero-link"
+                type="url"
+                inputMode="url"
+                autoComplete="url"
+                placeholder="yourcafe.com/menu"
+                value={url}
+                invalid={Boolean(urlError)}
+                aria-describedby={urlError ? 'hero-link-error' : undefined}
+                onChange={(e) => onUrlChange(e.target.value)}
+                className="border-0 py-3.5 text-[17px] font-semibold"
+              />
             </div>
-          ))}
-        </dl>
+            <div className="grid grid-cols-[96px_minmax(0,1fr)] border-b border-rule sm:grid-cols-[120px_minmax(0,1fr)]">
+              <span className="type-label flex items-center border-r border-rule px-3 py-3 text-ink-2">
+                Checked
+              </span>
+              <p className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1 px-3 py-3 text-[14px]">
+                {urlError ? (
+                  <span
+                    id="hero-link-error"
+                    role="alert"
+                    className="flex items-center gap-1.5 font-semibold text-magenta-ink"
+                  >
+                    <ProofMark kind="fail" size={12} />
+                    {urlError}
+                  </span>
+                ) : faults.length === 0 ? (
+                  <span className="flex items-center gap-1.5 font-semibold">
+                    <ProofMark kind="pass" size={13} />
+                    {sample
+                      ? 'Sample proof. Type your link above.'
+                      : 'Every measured line passes.'}
+                  </span>
+                ) : (
+                  faults.slice(0, 2).map((f) => (
+                    <span key={f.id} className="flex items-center gap-1.5 font-semibold">
+                      <ProofMark kind={f.status} size={13} />
+                      {f.label} {f.reading}
+                    </span>
+                  ))
+                )}
+              </p>
+            </div>
+            <div className="grid grid-cols-[96px_minmax(0,1fr)] sm:grid-cols-[120px_minmax(0,1fr)]">
+              <span className="type-label flex items-center border-r border-rule px-3 py-3 text-ink-2">
+                Print at
+              </span>
+              <p className="px-3 py-3 text-[14px] font-semibold">
+                2 cm or larger
+                <span className="font-normal text-ink-2">
+                  {' '}
+                  · test with two phones first
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
+            {/* The stamp is never dead weight: before there is a link of the
+                visitor's own, pressing it takes them to the field it needs. */}
+            <Stamp
+              verdict={verdict}
+              detail={
+                ready
+                  ? 'Download PNG'
+                  : sample
+                    ? 'Type your link first'
+                    : 'Fix the ticket first'
+              }
+              onPress={() => {
+                if (ready) return download('png', fileName);
+                document.getElementById('hero-link')?.focus();
+              }}
+            />
+            <a
+              href="#studio"
+              className="text-[15px] font-semibold underline decoration-hair decoration-2 underline-offset-4 hover:decoration-ink"
+            >
+              Style it in the studio
+            </a>
+          </div>
+        </div>
       </div>
+
+      <ControlStrip
+        style={style}
+        scannability={scannability}
+        capacity={capacity}
+        moduleCount={moduleCount}
+        className="border-l-0"
+      />
     </section>
   );
 }

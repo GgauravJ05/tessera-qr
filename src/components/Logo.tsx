@@ -1,53 +1,32 @@
-/** The tessera mark: three finder squares plus two loose tiles. */
+/**
+ * The Tessera mark: a finder pattern struck in black, with one tile of each
+ * process ink set beside it, the three plates a proof is checked against.
+ */
 export function Logo({ size = 24 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden className="shrink-0">
       <rect
         x="1"
         y="1"
-        width="8"
-        height="8"
-        rx="2.5"
-        fill="currentColor"
-        className="text-accent"
+        width="14"
+        height="14"
+        fill="none"
+        stroke="var(--ink)"
+        strokeWidth="2.5"
       />
+      <rect x="5" y="5" width="6" height="6" fill="var(--ink)" />
+      <rect x="17" y="1" width="6" height="6" fill="var(--cyan)" />
+      <rect x="17" y="9" width="6" height="6" fill="var(--magenta)" />
+      <rect x="1" y="17" width="6" height="6" fill="var(--yellow)" />
+      <rect x="9" y="17" width="6" height="6" fill="var(--ink)" />
       <rect
-        x="15"
-        y="1"
-        width="8"
-        height="8"
-        rx="2.5"
-        fill="currentColor"
-        className="text-ink"
-        opacity="0.85"
-      />
-      <rect
-        x="1"
-        y="15"
-        width="8"
-        height="8"
-        rx="2.5"
-        fill="currentColor"
-        className="text-ink"
-        opacity="0.85"
-      />
-      <rect
-        x="15"
-        y="15"
-        width="3.5"
-        height="3.5"
-        rx="1.2"
-        fill="currentColor"
-        className="text-ink-subtle"
-      />
-      <rect
-        x="19.5"
-        y="19.5"
-        width="3.5"
-        height="3.5"
-        rx="1.2"
-        fill="currentColor"
-        className="text-ink-subtle"
+        x="17"
+        y="17"
+        width="6"
+        height="6"
+        fill="none"
+        stroke="var(--ink)"
+        strokeWidth="1.5"
       />
     </svg>
   );

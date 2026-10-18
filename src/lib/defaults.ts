@@ -24,7 +24,9 @@ export const EMPTY_CONTENT: Record<ContentKind, QrContent> = {
 
 export const DEFAULT_STYLE: QrStyle = {
   size: 1024,
-  margin: 16,
+  // About four modules for a typical link, which is what the QR specification
+  // asks for. A smaller default leaves the clear border to whoever places it.
+  margin: 112,
   errorCorrection: 'Q',
   foreground: '#111827',
   background: '#ffffff',

@@ -11,17 +11,17 @@ const STORAGE_KEY = 'tessera:scan-model-beta';
 const BAND: Record<ScanBand, { label: string; className: string; detail: string }> = {
   likely: {
     label: 'Likely to scan',
-    className: 'text-ok',
+    className: 'text-ink',
     detail: 'Nothing in the design stands out as a risk.',
   },
   marginal: {
     label: 'Uncertain',
-    className: 'text-warn',
+    className: 'text-ink bg-yellow/40 px-1',
     detail: 'The model is not confident either way. Test this one before printing.',
   },
   unlikely: {
     label: 'Unlikely to scan',
-    className: 'text-danger',
+    className: 'text-magenta-ink',
     detail: 'Shape, colour or density look like designs that failed to decode.',
   },
 };
@@ -61,20 +61,20 @@ export function ScanModelBeta({ payload, style }: { payload: string; style: QrSt
   const { status, probability, band } = useScanPrediction(enabled, payload, style);
 
   return (
-    <div className="rounded-lg border border-line px-3 py-2.5">
+    <div className="border border-rule px-3 py-2">
       <Toggle
         checked={enabled}
         onChange={change}
         label="Scan prediction (beta)"
-        description="A model trained on 5,000 decoded symbols, run on your device."
+        description="A second opinion from a model trained on 5,000 decoded symbols. Simulated conditions; runs on your device."
       />
 
       {enabled && (
-        <div className="mt-2 border-t border-line pt-2 text-xs" aria-live="polite">
-          {status === 'loading' && <p className="text-ink-subtle">Loading the model…</p>}
+        <div className="mt-2 border-t border-hair pt-2 text-[13px]" aria-live="polite">
+          {status === 'loading' && <p className="text-ink-2">Loading the model…</p>}
 
           {status === 'unavailable' && (
-            <p className="text-ink-subtle">
+            <p className="text-ink-2">
               No prediction for this design. The contrast check above still applies.
             </p>
           )}
@@ -83,14 +83,14 @@ export function ScanModelBeta({ payload, style }: { payload: string; style: QrSt
             <>
               <div className="flex items-center gap-2">
                 <FlaskConical size={13} aria-hidden className={BAND[band].className} />
-                <span className={clsx('font-medium', BAND[band].className)}>
+                <span className={clsx('font-bold', BAND[band].className)}>
                   {BAND[band].label}
                 </span>
-                <span className="ml-auto font-mono text-ink-subtle">
+                <span className="type-reading ml-auto text-ink">
                   {Math.round(probability * 100)}%
                 </span>
               </div>
-              <p className="mt-1 text-ink-subtle">{BAND[band].detail}</p>
+              <p className="mt-1 text-ink-2">{BAND[band].detail}</p>
             </>
           )}
         </div>
