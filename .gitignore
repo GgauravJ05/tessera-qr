@@ -50,3 +50,9 @@ data/
 tools/scanlab/train/.venv/
 __pycache__/
 tools/scanlab/train/artifacts/
+
+# Impeccable review captures and decision mocks are regenerated, not kept.
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/build/
+.impeccable/questions/
