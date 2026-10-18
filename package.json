@@ -52,7 +52,9 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "jsqr": "^1.4.0",
     "lucide-react": "^1.42.0",
+    "motion": "^12.43.0",
     "qr-code-styling": "^1.9.2",
     "qrcode-generator": "^1.5.2",
     "react": "^19.2.8",
@@ -69,7 +71,6 @@
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/coverage-v8": "^5.0.0",
     "jsdom": "^29.1.1",
-    "jsqr": "^1.4.0",
     "oxlint": "^1.82.0",
     "playwright-core": "^1.63.0",
     "prettier": "^3.9.6",
