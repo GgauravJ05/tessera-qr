@@ -10,7 +10,7 @@ const PREVIEW_SIZE = 360;
  * Owns the QRCodeStyling instance for the live preview and produces
  * full-resolution downloads on demand.
  */
-export function useQrCode(payload: string, style: QrStyle) {
+export function useQrCode(payload: string, style: QrStyle, previewSize = PREVIEW_SIZE) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const instanceRef = useRef<QRCodeStyling | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +23,7 @@ export function useQrCode(payload: string, style: QrStyle) {
     if (!container) return;
 
     try {
-      const options = toQrOptions(payload || ' ', style, PREVIEW_SIZE);
+      const options = toQrOptions(payload || ' ', style, previewSize);
       if (!instanceRef.current) {
         instanceRef.current = new QRCodeStyling(options);
         instanceRef.current.append(container);
@@ -36,7 +36,7 @@ export function useQrCode(payload: string, style: QrStyle) {
         cause instanceof Error ? cause.message : 'This content could not be encoded.',
       );
     }
-  }, [payload, style]);
+  }, [payload, style, previewSize]);
   // oxlint-enable react/set-state-in-effect
 
   /** Renders a fresh instance at full output size and triggers a download. */
@@ -59,5 +59,5 @@ export function useQrCode(payload: string, style: QrStyle) {
     return data instanceof Blob ? data : new Blob([data as BlobPart]);
   };
 
-  return { containerRef, error, download, toBlob, previewSize: PREVIEW_SIZE };
+  return { containerRef, error, download, toBlob, previewSize };
 }
