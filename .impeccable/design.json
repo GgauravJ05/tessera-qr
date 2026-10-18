@@ -1,0 +1,557 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-17T16:02:12+00:00",
+  "title": "Design System: Tessera",
+  "extensions": {
+    "colorMeta": {
+      "magenta": {
+        "role": "primary",
+        "displayName": "Process Magenta",
+        "canonical": "oklch(59.7% 0.243 358)",
+        "tonalRamp": [
+          "#20000b",
+          "#480024",
+          "#760440",
+          "#a80c5d",
+          "#e50480",
+          "#fd69a4",
+          "#ffb0ca",
+          "#fee8ee"
+        ],
+        "cssVar": "--magenta"
+      },
+      "magenta-ink": {
+        "role": "primary",
+        "displayName": "Magenta Text Ink",
+        "canonical": "oklch(53.3% 0.217 358)",
+        "tonalRamp": [
+          "#20000b",
+          "#470224",
+          "#75093f",
+          "#a6145d",
+          "#dc2d80",
+          "#fb6ba4",
+          "#feb1ca",
+          "#ffe7ee"
+        ],
+        "cssVar": "--magenta-ink"
+      },
+      "on-magenta": {
+        "role": "primary",
+        "displayName": "On Magenta",
+        "canonical": "oklch(100.0% 0.000 90)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ],
+        "cssVar": "--on-magenta"
+      },
+      "cyan": {
+        "role": "secondary",
+        "displayName": "Process Cyan",
+        "canonical": "oklch(67.2% 0.153 240)",
+        "tonalRamp": [
+          "#000d1b",
+          "#00273e",
+          "#004468",
+          "#006494",
+          "#1989c5",
+          "#28aff9",
+          "#97d3fd",
+          "#dff1ff"
+        ],
+        "cssVar": "--cyan"
+      },
+      "cyan-ink": {
+        "role": "secondary",
+        "displayName": "Cyan Text Ink",
+        "canonical": "oklch(52.6% 0.120 240)",
+        "tonalRamp": [
+          "#000d1b",
+          "#00273e",
+          "#004468",
+          "#006495",
+          "#2a88c0",
+          "#55aee8",
+          "#96d3fd",
+          "#dff1ff"
+        ],
+        "cssVar": "--cyan-ink"
+      },
+      "yellow": {
+        "role": "tertiary",
+        "displayName": "Process Yellow",
+        "canonical": "oklch(91.7% 0.192 101)",
+        "tonalRamp": [
+          "#0f0b00",
+          "#2a2400",
+          "#484001",
+          "#6a5f05",
+          "#8f821c",
+          "#b9a607",
+          "#e1cd33",
+          "#fff293"
+        ],
+        "cssVar": "--yellow"
+      },
+      "booth": {
+        "role": "neutral",
+        "displayName": "Booth Grey",
+        "canonical": "oklch(87.5% 0.007 107)",
+        "tonalRamp": [
+          "#0b0b08",
+          "#242421",
+          "#40403c",
+          "#5e5e5a",
+          "#80807c",
+          "#a5a5a0",
+          "#cbcbc6",
+          "#efefea"
+        ],
+        "cssVar": "--booth"
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Coated Stock",
+        "canonical": "oklch(98.8% 0.003 106)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#242423",
+          "#40403e",
+          "#5e5e5c",
+          "#80807e",
+          "#a5a5a3",
+          "#cacac9",
+          "#eeeeec"
+        ],
+        "cssVar": "--sheet"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Black Ink",
+        "canonical": "oklch(17.8% 0.000 90)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ],
+        "cssVar": "--ink"
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Second Ink",
+        "canonical": "oklch(40.7% 0.008 107)",
+        "tonalRamp": [
+          "#0b0b08",
+          "#242420",
+          "#40403b",
+          "#5e5e59",
+          "#81817b",
+          "#a5a59f",
+          "#cbcbc5",
+          "#efefe9"
+        ],
+        "cssVar": "--ink-2"
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Third Ink",
+        "canonical": "oklch(50.8% 0.011 107)",
+        "tonalRamp": [
+          "#0c0b07",
+          "#24241e",
+          "#40403a",
+          "#5e5e57",
+          "#818179",
+          "#a5a59d",
+          "#cbcbc3",
+          "#efefe7"
+        ],
+        "cssVar": "--ink-3"
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "oklch(17.8% 0.000 90)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ],
+        "cssVar": "--rule"
+      },
+      "hair": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(82.5% 0.010 107)",
+        "tonalRamp": [
+          "#0c0b07",
+          "#24241f",
+          "#40403a",
+          "#5e5e58",
+          "#81817a",
+          "#a5a59e",
+          "#cbcbc4",
+          "#efefe8"
+        ],
+        "cssVar": "--hair"
+      },
+      "tint": {
+        "role": "neutral",
+        "displayName": "Tint",
+        "canonical": "oklch(95.4% 0.005 106)",
+        "tonalRamp": [
+          "#0b0b09",
+          "#242421",
+          "#40403d",
+          "#5e5e5a",
+          "#80807d",
+          "#a5a5a1",
+          "#cbcbc7",
+          "#efefeb"
+        ],
+        "cssVar": "--tint"
+      },
+      "booth-film": {
+        "role": "neutral",
+        "displayName": "Booth, Lamp Off",
+        "theme": "dark",
+        "cssVar": "--booth",
+        "note": "Value of --booth under .dark"
+      },
+      "sheet-film": {
+        "role": "neutral",
+        "displayName": "Film Stock",
+        "theme": "dark",
+        "cssVar": "--sheet",
+        "note": "Value of --sheet under .dark"
+      },
+      "ink-film": {
+        "role": "neutral",
+        "displayName": "Film Ink",
+        "theme": "dark",
+        "cssVar": "--ink",
+        "note": "Value of --ink under .dark"
+      },
+      "ink-2-film": {
+        "role": "neutral",
+        "displayName": "Film Second Ink",
+        "theme": "dark",
+        "cssVar": "--ink-2",
+        "note": "Value of --ink-2 under .dark"
+      },
+      "ink-3-film": {
+        "role": "neutral",
+        "displayName": "Film Third Ink",
+        "theme": "dark",
+        "cssVar": "--ink-3",
+        "note": "Value of --ink-3 under .dark"
+      },
+      "hair-film": {
+        "role": "neutral",
+        "displayName": "Film Hairline",
+        "theme": "dark",
+        "cssVar": "--hair",
+        "note": "Value of --hair under .dark"
+      },
+      "tint-film": {
+        "role": "neutral",
+        "displayName": "Film Tint",
+        "theme": "dark",
+        "cssVar": "--tint",
+        "note": "Value of --tint under .dark"
+      },
+      "magenta-film": {
+        "role": "primary",
+        "displayName": "Film Magenta",
+        "theme": "dark",
+        "cssVar": "--magenta",
+        "note": "Value of --magenta under .dark"
+      },
+      "on-magenta-film": {
+        "role": "primary",
+        "displayName": "On Film Magenta",
+        "theme": "dark",
+        "cssVar": "--on-magenta",
+        "note": "Value of --on-magenta under .dark"
+      },
+      "cyan-film": {
+        "role": "secondary",
+        "displayName": "Film Cyan",
+        "theme": "dark",
+        "cssVar": "--cyan",
+        "note": "Value of --cyan under .dark"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The one page headline (hero, lab, proof wall). Class type-display.",
+        "fontStretch": "112%"
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Landing section headlines. Class type-title.",
+        "fontStretch": "110%"
+      },
+      "head": {
+        "displayName": "Head",
+        "purpose": "Studio panel and fieldset headings. Class type-head.",
+        "fontStretch": "104%"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Section prose in ink-2, 34 to 40rem measure."
+      },
+      "label": {
+        "displayName": "Ticket Small Caps",
+        "purpose": "Field names, slug entries, nav, captions, patch names, group headings. Never a kicker above a headline. Class type-label.",
+        "textTransform": "uppercase"
+      },
+      "reading": {
+        "displayName": "Reading",
+        "purpose": "Every measured value, in fixed rolling cells. Class type-reading.",
+        "fontStretch": "92%"
+      },
+      "stamp": {
+        "displayName": "Stamp Face",
+        "purpose": "The stamp verdict only.",
+        "fontStretch": "115%",
+        "textTransform": "uppercase"
+      },
+      "mono": {
+        "displayName": "JetBrains Mono",
+        "purpose": "Hex entries and code identifiers only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "none",
+        "value": "none",
+        "purpose": "The system is flat. The only box-shadow is the inset ring pair on the range thumb (inset 0 0 0 4px sheet, inset 0 0 0 10px magenta), which draws a registration mark, not depth."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-print",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Expo-out curve for plates pulling into register and readings rolling over."
+      },
+      {
+        "name": "reading-roll",
+        "value": "320ms ease-print, y -0.55em to 0 in, 0 to 0.55em out, 25ms stagger per cell",
+        "purpose": "Only changed character cells roll over."
+      },
+      {
+        "name": "plate-register",
+        "value": "transform 900ms ease-print, delay 300ms + 140ms per plate; opacity 600ms, delay 1150ms + 120ms per plate",
+        "purpose": "Cyan, magenta and yellow plates arrive about 10px out of register on first view, then align and give way to the black."
+      },
+      {
+        "name": "stamp-press",
+        "value": "spring stiffness 520 damping 26; scale [1, 1.06, 1], rotate -2.5deg to 0; magenta fill held about 900ms; tap scale 0.95",
+        "purpose": "The stamp lands, inks and lifts on download."
+      },
+      {
+        "name": "tab-rule",
+        "value": "spring stiffness 520 damping 40, shared layoutId",
+        "purpose": "The 3px active-tab rule slides between tabs."
+      },
+      {
+        "name": "toggle-block",
+        "value": "spring stiffness 600 damping 38, layout",
+        "purpose": "The ink block slides to the side that is set."
+      },
+      {
+        "name": "gauge-fill",
+        "value": "width 500ms",
+        "purpose": "Control-strip gauge fills."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "MotionConfig reducedMotion=\"user\"; CSS animation and transition durations 0.01ms; scroll-behavior auto",
+        "purpose": "Every motion has a still, registered end state."
+      },
+      {
+        "name": "loading",
+        "value": "LazyMotion strict with domMax loaded by dynamic import after first paint",
+        "purpose": "The animation engine never blocks the first render."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "sheet-max",
+        "value": "1480px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A solid block of magenta for the one thing to do.",
+      "html": "<button class=\"ds-btn-primary\">Download PNG</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;font-family:Archivo,ui-sans-serif,system-ui,sans-serif;font-size:14px;font-weight:600;background:var(--magenta,#e4007f);color:var(--on-magenta,#fff);border:1px solid var(--magenta,#e4007f);border-radius:0;cursor:pointer;transition:background-color .15s,color .15s}.ds-btn-primary:hover{background:var(--magenta-ink,#c4006c)}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:2px solid var(--cyan,#00a0e9);outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A ruled ink box that inverts on hover.",
+      "html": "<button class=\"ds-btn-secondary\">Copy PNG</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;font-family:Archivo,ui-sans-serif,system-ui,sans-serif;font-size:14px;font-weight:600;background:var(--sheet,#fbfbf9);color:var(--ink,#111);border:1px solid var(--rule,#111);border-radius:0;cursor:pointer;transition:background-color .15s,color .15s}.ds-btn-secondary:hover{background:var(--ink,#111);color:var(--sheet,#fbfbf9)}.ds-btn-secondary:active{transform:translateY(1px)}.ds-btn-secondary:focus-visible{outline:2px solid var(--cyan,#00a0e9);outline-offset:2px}"
+    },
+    {
+      "name": "Stamp",
+      "kind": "custom",
+      "refersTo": "stamp",
+      "description": "The approval stamp that is also the download: verdict and action in one object.",
+      "html": "<button class=\"ds-stamp\"><span class=\"ds-stamp-word\">Pass for press</span><span class=\"ds-stamp-detail\">Download PNG</span></button>",
+      "css": ".ds-stamp{display:inline-flex;flex-direction:column;align-items:flex-start;padding:12px 20px;border:3px solid var(--magenta,#e4007f);background:transparent;color:var(--magenta-ink,#c4006c);text-transform:uppercase;text-align:left;font-family:Archivo,ui-sans-serif,system-ui,sans-serif;transform:rotate(-2.5deg);cursor:pointer;transition:transform .2s cubic-bezier(.16,1,.3,1),background-color .15s,color .15s}.ds-stamp:hover{transform:rotate(0);background:var(--magenta,#e4007f);color:var(--on-magenta,#fff)}.ds-stamp:active{transform:scale(.95)}.ds-stamp:focus-visible{outline:2px solid var(--cyan,#00a0e9);outline-offset:2px}.ds-stamp-word{font-size:26px;font-weight:850;font-stretch:115%;letter-spacing:.02em;line-height:1;white-space:nowrap}.ds-stamp-detail{margin-top:6px;font-size:11.5px;font-weight:650;letter-spacing:.08em;line-height:1.2;opacity:.9}"
+    },
+    {
+      "name": "Ticket Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A job-ticket row: fixed small-caps label column, a rule, then the entry.",
+      "html": "<div class=\"ds-ticket\"><label class=\"ds-ticket-label\" for=\"ds-job\">Job link</label><input id=\"ds-job\" class=\"ds-input\" placeholder=\"yourcafe.com/menu\"></div>",
+      "css": ".ds-ticket{display:grid;grid-template-columns:120px minmax(0,1fr);border:1px solid var(--rule,#111);max-width:36rem;background:var(--sheet,#fbfbf9)}.ds-ticket-label{display:flex;align-items:center;padding:0 12px;border-right:1px solid var(--rule,#111);font-family:Archivo,ui-sans-serif,system-ui,sans-serif;font-size:11.5px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2,#4a4a45)}.ds-input{width:100%;border:0;border-radius:0;background:var(--sheet,#fbfbf9);padding:14px 12px;font-family:Archivo,ui-sans-serif,system-ui,sans-serif;font-size:17px;font-weight:600;color:var(--ink,#111);caret-color:var(--magenta,#e4007f);transition:background-color .15s}.ds-input::placeholder{color:var(--ink-3,#66665f)}.ds-input:hover{background:var(--tint,#f0f0ec)}.ds-input:focus{background:var(--sheet,#fbfbf9);outline:2px solid var(--cyan,#00a0e9);outline-offset:0}"
+    },
+    {
+      "name": "Control Strip",
+      "kind": "custom",
+      "refersTo": "control-patch",
+      "description": "Ruled ink patches and inset cyan gauges, each with a live reading; the weakest ink outlined in magenta.",
+      "html": "<ul class=\"ds-strip\"><li class=\"ds-patch ds-weakest\"><span class=\"ds-swatch\" style=\"background:#111\"></span><span class=\"ds-plabel\">Ink</span><span class=\"ds-read\">17.7:1</span><span class=\"ds-tag\">Weakest</span></li><li class=\"ds-patch\"><span class=\"ds-swatch\" style=\"background:#fff\"></span><span class=\"ds-plabel\">Paper</span><span class=\"ds-read\">#FFFFFF</span></li><li class=\"ds-patch\"><span class=\"ds-gauge\"><span class=\"ds-gframe\"><span class=\"ds-gfill\" style=\"width:83%\"></span></span></span><span class=\"ds-plabel\">Recovery</span><span class=\"ds-read\">Q 25%</span></li></ul>",
+      "css": ".ds-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));list-style:none;margin:0;padding:0;border-left:1px solid var(--rule,#111);border-top:1px solid var(--rule,#111);background:var(--sheet,#fbfbf9);font-family:Archivo,ui-sans-serif,system-ui,sans-serif;color:var(--ink,#111)}.ds-patch{position:relative;display:flex;flex-direction:column;border-right:1px solid var(--rule,#111);border-bottom:1px solid var(--rule,#111)}.ds-weakest{outline:2px solid var(--magenta,#e4007f);outline-offset:-4px}.ds-swatch{display:block;height:28px;border-bottom:1px solid var(--rule,#111)}.ds-gauge{display:block;height:28px;box-sizing:border-box;padding:6px;border-bottom:1px solid var(--rule,#111)}.ds-gframe{position:relative;display:block;height:100%;border:1px solid var(--hair,#c6c6bf);background:var(--sheet,#fbfbf9)}.ds-gfill{position:absolute;top:0;bottom:0;left:0;background:var(--cyan,#00a0e9);transition:width .5s}.ds-plabel{padding:6px 8px 0;font-size:11.5px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2,#4a4a45)}.ds-read{padding:0 8px 8px;font-size:17px;line-height:1.25;font-weight:700;font-stretch:92%;letter-spacing:-.01em;font-variant-numeric:tabular-nums}.ds-tag{position:absolute;top:6px;right:6px;padding:0 4px;background:var(--sheet,#fbfbf9);color:var(--magenta-ink,#c4006c);font-size:9.5px;font-weight:650;letter-spacing:.08em;text-transform:uppercase}"
+    },
+    {
+      "name": "Toggle",
+      "kind": "custom",
+      "refersTo": "toggle",
+      "description": "A ruled two-cell switch whose ink block slides to the side that is set.",
+      "html": "<button class=\"ds-toggle\" role=\"switch\" aria-checked=\"true\"><span class=\"ds-tblock\"></span><span class=\"ds-toff\">Off</span><span class=\"ds-ton\">On</span></button>",
+      "css": ".ds-toggle{position:relative;display:grid;grid-template-columns:1fr 1fr;width:60px;height:28px;padding:0;border:1px solid var(--rule,#111);border-radius:0;background:var(--sheet,#fbfbf9);font-family:Archivo,ui-sans-serif,system-ui,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer}.ds-toggle:focus-visible{outline:2px solid var(--cyan,#00a0e9);outline-offset:2px}.ds-tblock{position:absolute;top:0;bottom:0;right:0;width:50%;background:var(--magenta,#e4007f);transition:right .25s cubic-bezier(.16,1,.3,1)}.ds-toff,.ds-ton{position:relative;z-index:1;display:grid;place-items:center}.ds-toff{color:var(--ink-3,#66665f)}.ds-ton{color:var(--on-magenta,#fff)}.ds-toggle[aria-checked=false] .ds-tblock{right:50%;background:var(--ink,#111)}.ds-toggle[aria-checked=false] .ds-toff{color:var(--sheet,#fbfbf9)}.ds-toggle[aria-checked=false] .ds-ton{color:var(--ink-3,#66665f)}"
+    },
+    {
+      "name": "Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "A ruled row of job types; the active tab carries a 3px ink rule that slides.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">URL</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Text</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">WiFi</button></div>",
+      "css": ".ds-tabs{display:flex;border-bottom:1px solid var(--rule,#111);font-family:Archivo,ui-sans-serif,system-ui,sans-serif}.ds-tab{position:relative;padding:8px 12px 12px;border:0;background:none;font-size:14px;font-weight:600;color:var(--ink-2,#4a4a45);cursor:pointer;transition:color .15s}.ds-tab:hover{color:var(--ink,#111)}.ds-tab:focus-visible{outline:2px solid var(--cyan,#00a0e9);outline-offset:2px}.ds-tab[aria-selected=true]{color:var(--ink,#111)}.ds-tab[aria-selected=true]::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--ink,#111)}"
+    },
+    {
+      "name": "Slug Line",
+      "kind": "nav",
+      "refersTo": "slug-line",
+      "description": "The proof head: wordmark, proof number and page links in ticket small caps.",
+      "html": "<header class=\"ds-slug\"><span class=\"ds-mark\">Tessera</span><span class=\"ds-proof\">Proof 17.10.26</span><nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Studio</a><a href=\"#\">Lab</a><a href=\"#\">Proof wall</a></nav></header>",
+      "css": ".ds-slug{display:flex;align-items:center;gap:16px;height:56px;padding:0 24px;background:var(--sheet,#fbfbf9);border-bottom:1px solid var(--hair,#c6c6bf);font-family:Archivo,ui-sans-serif,system-ui,sans-serif}.ds-mark{font-size:17px;font-weight:850;font-stretch:112%;letter-spacing:-.01em;color:var(--ink,#111)}.ds-proof,.ds-nav a{font-size:11.5px;font-weight:650;letter-spacing:.08em;text-transform:uppercase}.ds-proof{color:var(--ink-3,#66665f)}.ds-nav{margin-left:auto;display:flex}.ds-nav a{padding:8px 12px;color:var(--ink-2,#4a4a45);text-decoration:none;transition:color .15s}.ds-nav a:hover{color:var(--ink,#111)}.ds-nav a:focus-visible{outline:2px solid var(--cyan,#00a0e9);outline-offset:2px}.ds-nav a[aria-current=page]{color:var(--ink,#111);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}"
+    },
+    {
+      "name": "Ladder Wedge",
+      "kind": "custom",
+      "description": "A step wedge of real decodes: ink where it read, a magenta-ink cross where it did not.",
+      "html": "<ol class=\"ds-wedge\"><li class=\"ds-ok\"></li><li class=\"ds-ok\"></li><li class=\"ds-ok\"></li><li class=\"ds-ok ds-sel\"></li><li class=\"ds-no\"><svg viewBox=\"0 0 10 10\" preserveAspectRatio=\"none\"><path d=\"M0 0L10 10M10 0L0 10\" stroke=\"currentColor\" stroke-width=\"1.2\" vector-effect=\"non-scaling-stroke\"/></svg></li><li class=\"ds-unk\"></li></ol>",
+      "css": ".ds-wedge{display:grid;grid-template-columns:repeat(6,1fr);list-style:none;margin:0;padding:0;border-left:1px solid var(--rule,#111);border-top:1px solid var(--rule,#111)}.ds-wedge li{position:relative;height:48px;border-right:1px solid var(--rule,#111);border-bottom:1px solid var(--rule,#111)}.ds-ok{background:var(--ink,#111)}.ds-no{background:var(--sheet,#fbfbf9);color:var(--magenta-ink,#c4006c)}.ds-no svg{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px)}.ds-unk{background:var(--tint,#f0f0ec)}.ds-sel{outline:2px solid var(--magenta,#e4007f);outline-offset:-5px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Press Check",
+    "overview": "Every page is one tall proof sheet of bright coated stock lying in a light booth. It is set in black ink, carries printer's marks at its corners and trims, and keeps the three process inks for jobs: magenta marks what needs doing and what is wrong, cyan marks registration and information, and yellow is only ever a highlighter laid under black ink. The code being proofed is the only picture on the sheet. Content runs further down the same sheet and never onto a second one beside it.\n\nThe density is that of a job ticket: ruled tables with small-capital field names, live readings in fixed tabular cells, and heavy wide display type cut in at poster size. Depth, softness and decoration are absent by construction. A proof is flat, its corners are square, and anything that moves is behaving like print: plates pulling into register, a densitometer ticking over, a stamp landing.\n\nDark mode is the same sheet read as a film positive with the booth lamp off. Roles hold. Only values change.",
+    "keyCharacteristics": [
+      "One sheet on a grey booth, with crop marks at the corners, a sticky slug line at its head and ruled section trims.",
+      "Ruled job-ticket grids (1px black rules, shared borders) instead of cards.",
+      "Archivo on its width axis: wide and heavy for display, condensed and tabular for readings.",
+      "Process inks as signals, never as decoration.",
+      "Flat, square, shadowless. The codes themselves are the only gradients."
+    ],
+    "rules": [
+      {
+        "name": "The Process Ink Rule",
+        "body": "Magenta means act or fault, cyan means registration or information, yellow means caution under black. An ink used only because it looks nice is a misprint.",
+        "section": "colors"
+      },
+      {
+        "name": "The Text-Safe Ink Rule",
+        "body": "Any magenta or cyan set as text or a stroke under 3px uses its `-ink` variant on light stock. The bright ink is for fills, outlines and patches.",
+        "section": "colors"
+      },
+      {
+        "name": "The Width Axis Rule",
+        "body": "Width comes from `font-stretch`, not from letter-spacing or a second family. Wide is for display, normal for labels, narrow for readings.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Is For Code Rule",
+        "body": "JetBrains Mono sets hex entries and code identifiers, nothing else. Readings stay in Archivo.",
+        "section": "typography"
+      },
+      {
+        "name": "The Fixed Cell Rule",
+        "body": "Any value that changes in place is tabular, so that nothing beside it reflows.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Proof Rule",
+        "body": "A proof is flat. Lift, glow, glass and blur are all off the sheet. To separate something, rule it off.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Square Corner Rule",
+        "body": "Nothing on a proof is rounded except the marks a printer draws round: registration targets and proofreader's rings.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do build every new surface as more of the same sheet. Gutters are 16/24/40px, section padding is 56px (80px at `lg`), and each section closes with a black rule.",
+      "Do group content in ruled job-ticket grids where cells share 1px rule lines, with small-capital field names in a fixed label column.",
+      "Do keep magenta for the primary action and for faults. Use magenta-ink whenever it is text or a thin stroke on light stock.",
+      "Do use cyan for focus (a 2px outline offset by 2px), registration and information gauges, and yellow only under black ink.",
+      "Do set every changing value as a Reading in tabular figures and fixed cells.",
+      "Do get width from Archivo's width axis: display at 110–115%, readings at 92%.",
+      "Do draw marks (crop, registration, proof marks) as hairline SVG with square caps.",
+      "Do give every animation a reduced-motion state that shows the finished, registered result."
+    ],
+    "donts": [
+      "Don't add shadows, glass, blur or glows. Rule things off instead.",
+      "Don't use gradients outside the QR codes being proofed. The only other linear gradients are functional: the checkerboard and the scroll-edge mask.",
+      "Don't round corners. Circles are only for registration targets, the registration-mark thumb and proofreader's rings.",
+      "Don't put a small-capital label above a headline as an eyebrow or kicker. Small capitals name fields and groups. They never introduce a headline.",
+      "Don't use magenta, cyan or yellow decoratively, or let one stand in for another's role.",
+      "Don't wrap content in cards with fills, padding and radius. Use a ruled row or cell.",
+      "Don't set readings in JetBrains Mono, or set prose in it. It is for hex and code only.",
+      "Don't place a second sheet beside the first. Content continues down the sheet."
+    ]
+  }
+}
