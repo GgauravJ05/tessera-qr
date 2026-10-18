@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 const FAQS = [
   {
@@ -19,7 +19,7 @@ const FAQS = [
   },
   {
     q: 'Will a logo or heavy styling break the scan?',
-    a: 'It can, which is why the studio scores contrast and capacity while you edit. Raising the error correction level lets the symbol survive a centre logo, and the badge beside the preview flags a colour pair that is too faint long before a printer does.',
+    a: 'It can, which is why the studio runs a press check while you edit: contrast at the weakest point, capacity, quiet zone and how much of the symbol a logo covers. Raising the error correction level lets the symbol survive a centre logo, and the proof flags a colour pair that is too faint long before a printer does.',
   },
   {
     q: 'Which export format should I choose?',
@@ -29,39 +29,35 @@ const FAQS = [
 
 export function Faq() {
   return (
-    <section id="faq" className="border-t border-line">
-      <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 sm:py-24">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-16">
-          <div className="lg:sticky lg:top-24 lg:self-start">
-            <p className="eyebrow">Questions</p>
-            <h2 className="text-section-title mt-3 text-balance">
-              The things people ask before printing 5,000 of them.
-            </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
-              Short answers, no sales pitch.
-            </p>
-          </div>
-
-          <ul className="divide-y divide-line border-y border-line">
-            {FAQS.map(({ q, a }) => (
-              <li key={q}>
-                <details className="group py-1">
-                  <summary className="flex cursor-pointer list-none items-center gap-4 py-4 text-[15px] font-medium tracking-tight transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
-                    <span className="flex-1 text-pretty">{q}</span>
-                    <ChevronDown
-                      size={17}
-                      aria-hidden
-                      className="shrink-0 text-ink-subtle transition-transform duration-300 group-open:rotate-180"
-                    />
-                  </summary>
-                  <p className="pb-5 pr-8 text-[14.5px] leading-relaxed text-ink-muted">
-                    {a}
-                  </p>
-                </details>
-              </li>
-            ))}
-          </ul>
+    <section id="faq" aria-labelledby="faq-title" className="border-b border-rule">
+      <div className="grid gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-14 lg:px-10 lg:py-20">
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <h2 id="faq-title" className="type-title max-w-[13ch] text-balance">
+            Before you print five thousand.
+          </h2>
+          <p className="mt-5 text-[17px] text-ink-2">Short answers, no sales pitch.</p>
         </div>
+
+        <ul className="border-t border-rule">
+          {FAQS.map(({ q, a }) => (
+            <li key={q} className="border-b border-rule">
+              <details className="group">
+                <summary className="flex cursor-pointer list-none items-start gap-4 py-4 text-[17px] font-bold leading-snug transition-colors hover:text-magenta-ink [&::-webkit-details-marker]:hidden">
+                  <span className="flex-1 text-pretty">{q}</span>
+                  <Plus
+                    size={18}
+                    strokeWidth={2.25}
+                    aria-hidden
+                    className="mt-0.5 shrink-0 transition-transform duration-300 group-open:rotate-45"
+                  />
+                </summary>
+                <p className="max-w-[62ch] pb-5 pr-8 text-[16px] leading-relaxed text-ink-2">
+                  {a}
+                </p>
+              </details>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
