@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { m } from 'motion/react';
 import {
   CalendarDays,
   Link as LinkIcon,
@@ -43,12 +44,17 @@ interface ContentTabsProps {
   onChange: (kind: ContentKind) => void;
 }
 
+/**
+ * The job type, set as a ruled row of tabs. The selected tab carries a heavy
+ * ink rule that slides between tabs rather than jumping, so the change of
+ * job reads as one move.
+ */
 export function ContentTabs({ value, onChange }: ContentTabsProps) {
   return (
     <div
       role="tablist"
       aria-label="QR content type"
-      className="scroll-thin scroll-edge-fade -mx-1 flex min-w-0 snap-x snap-mandatory gap-1.5 overflow-x-auto px-1 pb-1.5"
+      className="scroll-thin scroll-edge-fade flex min-w-0 overflow-x-auto border-b border-rule"
     >
       {ORDER.map((kind) => {
         const Icon = ICONS[kind];
@@ -61,14 +67,20 @@ export function ContentTabs({ value, onChange }: ContentTabsProps) {
             aria-selected={active}
             onClick={() => onChange(kind)}
             className={clsx(
-              'flex shrink-0 snap-start items-center gap-1.5 whitespace-nowrap rounded-xl border px-3 py-2 text-[13px] font-medium transition-all duration-200 active:scale-[0.97] sm:px-3.5',
-              active
-                ? 'border-accent/40 bg-accent-soft text-accent shadow-[var(--shadow-raise)]'
-                : 'border-line bg-raised text-ink-muted hover:-translate-y-px hover:border-line-strong hover:text-ink',
+              'relative flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 pb-3 pt-2 text-[14px] font-semibold transition-colors',
+              active ? 'text-ink' : 'text-ink-2 hover:text-ink',
             )}
           >
-            <Icon size={14} aria-hidden />
+            <Icon size={15} strokeWidth={2} aria-hidden />
             {CONTENT_LABELS[kind]}
+            {active && (
+              <m.span
+                layoutId="content-tab-rule"
+                aria-hidden
+                className="absolute inset-x-0 -bottom-px h-[3px] bg-ink"
+                transition={{ type: 'spring', stiffness: 520, damping: 40 }}
+              />
+            )}
           </button>
         );
       })}
