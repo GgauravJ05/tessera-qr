@@ -19,14 +19,17 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         cleanupOutdatedCaches: true,
         navigateFallback: '/index.html',
+        // The lab and the proof wall are their own precached pages; only
+        // unknown paths fall back to the studio.
+        navigateFallbackDenylist: [/^\/lab/, /^\/gallery/],
       },
       manifest: {
         name: 'Tessera — QR code studio',
         short_name: 'Tessera',
         description:
-          'Craft static QR codes that never expire. Links, WiFi, contacts and more, checked for scannability and exported print-ready — entirely on your device.',
-        theme_color: '#08090d',
-        background_color: '#08090d',
+          'Proof a QR code before the run. Links, WiFi, contacts and more, checked for scannability and exported print-ready, entirely on your device.',
+        theme_color: '#d6d6d1',
+        background_color: '#d6d6d1',
         display: 'standalone',
         orientation: 'any',
         start_url: '/',
@@ -45,6 +48,18 @@ export default defineConfig({
       },
     }),
   ],
+  // One HTML entry per page of the sheet. Each is a real file in the build,
+  // so /lab/ and /gallery/ are served as they are, with no rewrite rules for
+  // Vercel to parse and nothing for the service worker to guess at.
+  build: {
+    rollupOptions: {
+      input: {
+        main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        lab: fileURLToPath(new URL('./lab/index.html', import.meta.url)),
+        gallery: fileURLToPath(new URL('./gallery/index.html', import.meta.url)),
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
