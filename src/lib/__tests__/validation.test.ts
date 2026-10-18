@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   BYTE_CAPACITY,
   assessCapacity,
+  isBlank,
   isValidEmail,
   isValidLatitude,
   isValidLongitude,
@@ -9,6 +10,7 @@ import {
   recommendedErrorCorrection,
   validateContent,
 } from '../validation';
+import { EMPTY_CONTENT } from '../defaults';
 
 describe('payloadBytes', () => {
   it('counts UTF-8 bytes, not characters', () => {
@@ -130,5 +132,19 @@ describe('recommendedErrorCorrection', () => {
   it('keeps levels that are already high enough', () => {
     expect(recommendedErrorCorrection(true, 'Q')).toBe('Q');
     expect(recommendedErrorCorrection(true, 'H')).toBe('H');
+  });
+});
+
+describe('isBlank', () => {
+  it('treats an untouched ticket as blank', () => {
+    expect(isBlank(EMPTY_CONTENT.url)).toBe(true);
+    expect(isBlank({ ...EMPTY_CONTENT.wifi, kind: 'wifi', hidden: true } as never)).toBe(
+      true,
+    );
+  });
+
+  it('treats any typed field as content', () => {
+    expect(isBlank({ kind: 'url', url: 'x' })).toBe(false);
+    expect(isBlank({ ...EMPTY_CONTENT.email, to: 'bad' } as never)).toBe(false);
   });
 });

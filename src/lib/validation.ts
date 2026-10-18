@@ -128,3 +128,19 @@ export function recommendedErrorCorrection(
   if (!hasLogo) return current;
   return current === 'H' || current === 'Q' ? current : 'H';
 }
+
+/**
+ * True when nothing has been typed into the ticket yet. Toggles and selects
+ * do not count: a WiFi form with only its security level chosen is still
+ * blank. A blank ticket shows the sample proof; a half-filled one shows the
+ * visitor's own content, faults and all.
+ */
+export function isBlank(content: QrContent): boolean {
+  return Object.entries(content).every(
+    ([key, value]) =>
+      key === 'kind' ||
+      key === 'encryption' ||
+      typeof value !== 'string' ||
+      value.trim() === '',
+  );
+}
